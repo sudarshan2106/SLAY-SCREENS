@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="glass navbar">
+        <div class="logo glow-text">SLAY SCREENS</div>
+        <div class="search-bar glass-card">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for events...">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Movies</a>
+            <a href="stream.html">Stream</a>
+            <a href="events.html" class="active">Events</a>
+            <a href="sports.html">Sports</a>
+        </div>
+
+        <div id="userSection">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="glow-text">Live <span style="color: var(--neon-purple);">Events</span></h1>
+            <p>Book tickets for concerts, shows, and exhibitions.</p>
+            <button class="neon-btn neon-btn-primary">Explore Events</button>
+        </div>
+    </header>
+
+    <!-- Events Grid -->
+    <section class="section-container">
+        <h2 class="section-title">Upcoming <span style="color: var(--neon-purple);">Events</span></h2>
+        <div class="events-grid" id="events-grid">
+            <!-- Events will be loaded dynamically -->
+        </div>
+    </section>
+
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            width: 40%;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            margin-left: 10px;
+            width: 100%;
+            outline: none;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-pink);
+        }
+
+        .hero-section {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: radial-gradient(circle at top right, rgba(176, 38, 255, 0.2), transparent 40%);
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .section-container {
+            padding: 4rem 10%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            padding: 1.5rem;
+        }
+
+        .event-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-meta i {
+            color: var(--neon-purple);
+            margin-right: 5px;
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            updateUserSection();
+            loadEvents();
+        });
+
+        function updateUserSection() {
+            const userSection = document.getElementById('userSection');
+
+            if (window.auth && window.auth.isLoggedIn()) {
+                const user = window.auth.getCurrentUser();
+                const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                userSection.innerHTML = `
+                    <div class="user-profile">
+                        <div class="profile-btn" onclick="window.location.href='profile.html'">
+                            <div class="profile-avatar">${initials}</div>
+                            <span>${user.name.split(' ')[0]}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                userSection.innerHTML = '<button class="neon-btn neon-btn-primary" onclick="window.location.href=\'user-login.html\'">Sign In</button>';
+            }
+        }
+
+        function loadEvents() {
+            const grid = document.getElementById('events-grid');
+            // Load events from localStorage (set by admin)
+            const events = JSON.parse(localStorage.getItem('adminEvents')) || [];
+
+            if (events.length === 0) {
+                grid.innerHTML = '<p style="color: white; text-align: center; grid-column: 1/-1;">No upcoming events found.</p>';
+                return;
+            }
+
+            grid.innerHTML = events.filter(e => e.status === 'Active').map(event => `
+                <div class="glass-card event-card">
+                    <div class="poster" style="height: 200px; overflow: hidden; border-radius: 12px; margin-bottom: 1rem;">
+                        <img src="${event.poster}" alt="${event.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3>${event.name}</h3>
+                    <div class="event-meta">
+                        <div><i class="fas fa-calendar"></i> ${event.date} at ${event.time}</div>
+                        <div><i class="fas fa-map-marker-alt"></i> ${event.venue}</div>
+                        <div style="color: var(--neon-green); font-weight: 600; margin-top: 0.5rem;">From ₹${event.price}</div>
+                    </div>
+                    <button class="neon-btn neon-btn-primary" onclick="window.location.href='event-booking.html?id=${event.id}'">
+                        Book Now
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Auto-refresh every 2 seconds to detect new events
+        setInterval(loadEvents, 2000);
+
+        // Listen for storage changes from other tabs/windows
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'adminEvents') {
+                loadEvents();
+            }
+        });
+    </script>
+</body>
+
+</html>

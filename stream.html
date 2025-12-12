@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Online | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="glass navbar">
+        <div class="logo glow-text">SLAY SCREENS</div>
+        <div class="search-bar glass-card">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for movies, shows...">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Movies</a>
+            <a href="stream.html" class="active">Stream</a>
+            <a href="events.html">Events</a>
+            <a href="sports.html">Sports</a>
+        </div>
+
+        <div id="userSection">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="glow-text">Stream <span style="color: var(--neon-blue);">Anywhere</span></h1>
+            <p>Watch the latest movies and shows from the comfort of your home.</p>
+            <button class="neon-btn neon-btn-primary">Start Watching</button>
+        </div>
+    </header>
+
+    <!-- Streaming Content -->
+    <section class="section-container">
+        <h2 class="section-title">Available for <span style="color: var(--neon-blue);">Streaming</span></h2>
+        <div class="movie-grid" id="stream-grid">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </section>
+
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            width: 40%;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            margin-left: 10px;
+            width: 100%;
+            outline: none;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-pink);
+        }
+
+        .hero-section {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent 40%);
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .section-container {
+            padding: 4rem 10%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            updateUserSection();
+            loadStreamingContent();
+        });
+
+        function updateUserSection() {
+            const userSection = document.getElementById('userSection');
+
+            if (window.auth && window.auth.isLoggedIn()) {
+                const user = window.auth.getCurrentUser();
+                const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                userSection.innerHTML = `
+                    <div class="user-profile">
+                        <div class="profile-btn" onclick="window.location.href='profile.html'">
+                            <div class="profile-avatar">${initials}</div>
+                            <span>${user.name.split(' ')[0]}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                userSection.innerHTML = '<button class="neon-btn neon-btn-primary" onclick="window.location.href=\'user-login.html\'">Sign In</button>';
+            }
+        }
+
+        function loadStreamingContent() {
+            const grid = document.getElementById('stream-grid');
+            // Load stream content from localStorage (set by admin)
+            const streamingMovies = JSON.parse(localStorage.getItem('adminStream')) || [];
+
+            if (streamingMovies.length === 0) {
+                grid.innerHTML = '<p style="color: white; text-align: center; grid-column: 1/-1;">No streaming content available.</p>';
+                return;
+            }
+
+            grid.innerHTML = streamingMovies.filter(m => m.status === 'Active').map(movie => `
+                <div class="glass-card movie-card">
+                    <div class="poster">
+                        <img src="${movie.poster}" alt="${movie.title}">
+                        <div class="overlay">
+                            <button class="neon-btn neon-btn-primary" onclick="alert('Streaming feature coming soon!')">
+                                <i class="fas fa-play"></i> Watch Now
+                            </button>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h3>${movie.title}</h3>
+                        <p>${movie.genre}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Auto-refresh every 2 seconds to detect new content
+        setInterval(loadStreamingContent, 2000);
+
+        // Listen for storage changes from other tabs/windows
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'adminStream') {
+                loadStreamingContent();
+            }
+        });
+    </script>
+</body>
+
+</html>

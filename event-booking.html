@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Event | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="glass navbar">
+        <div class="logo glow-text">SLAY SCREENS</div>
+        <div class="nav-links">
+            <a href="events.html">Back to Events</a>
+        </div>
+    </nav>
+
+    <div class="booking-container">
+        <div class="glass-card booking-details">
+            <div class="event-info-header">
+                <h1 id="eventName" class="glow-text">Event Name</h1>
+                <p id="eventDate"><i class="fas fa-calendar"></i> Date | <i class="fas fa-clock"></i> Time</p>
+                <p id="eventVenue"><i class="fas fa-map-marker-alt"></i> Venue</p>
+            </div>
+
+            <div class="ticket-selection">
+                <h3>Select Tickets</h3>
+                <div class="ticket-type glass">
+                    <div class="type-info">
+                        <h4>Standard Entry</h4>
+                        <p>General admission area</p>
+                    </div>
+                    <div class="price" id="eventPrice">₹0</div>
+                    <div class="quantity-control">
+                        <button class="qty-btn" onclick="updateQuantity(-1)">-</button>
+                        <span id="ticketQty">1</span>
+                        <button class="qty-btn" onclick="updateQuantity(1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-summary glass">
+                <h3>Booking Summary</h3>
+                <div class="summary-row">
+                    <span>Ticket Price</span>
+                    <span id="summaryPrice">₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Quantity</span>
+                    <span id="summaryQty">1</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total Amount</span>
+                    <span id="totalAmount" class="glow-text">₹0</span>
+                </div>
+                <button class="neon-btn neon-btn-primary full-width" onclick="proceedToCheckout()">Proceed to
+                    Pay</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .booking-container {
+            padding: 100px 5% 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .booking-details {
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .event-info-header {
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .event-info-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-info-header p {
+            color: var(--text-muted);
+            margin: 0.2rem 0;
+        }
+
+        .ticket-selection {
+            margin-bottom: 2rem;
+        }
+
+        .ticket-type {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .type-info h4 {
+            margin-bottom: 0.2rem;
+        }
+
+        .type-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--neon-green);
+            font-size: 1.2rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 20px;
+        }
+
+        .qty-btn {
+            background: var(--neon-purple);
+            border: none;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .qty-btn:hover {
+            background: var(--neon-pink);
+        }
+
+        #ticketQty {
+            min-width: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .booking-summary {
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .summary-row.total {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .full-width {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let currentEvent = null;
+        let ticketPrice = 0;
+        let quantity = 1;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('id');
+
+            if (!eventId) {
+                alert('No event selected');
+                window.location.href = 'events.html';
+                return;
+            }
+
+            loadEventDetails(eventId);
+        });
+
+        function loadEventDetails(id) {
+            const events = JSON.parse(localStorage.getItem('adminEvents')) || [];
+            currentEvent = events.find(e => e.id == id);
+
+            if (!currentEvent) {
+                alert('Event not found');
+                window.location.href = 'events.html';
+                return;
+            }
+
+            document.getElementById('eventName').textContent = currentEvent.name;
+            document.getElementById('eventDate').innerHTML = `<i class="fas fa-calendar"></i> ${currentEvent.date} | <i class="fas fa-clock"></i> ${currentEvent.time}`;
+            document.getElementById('eventVenue').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${currentEvent.venue}`;
+
+            ticketPrice = parseInt(currentEvent.price);
+            document.getElementById('eventPrice').textContent = `₹${ticketPrice}`;
+
+            updateSummary();
+        }
+
+        function updateQuantity(change) {
+            const newQty = quantity + change;
+            if (newQty >= 1 && newQty <= 10) {
+                quantity = newQty;
+                document.getElementById('ticketQty').textContent = quantity;
+                updateSummary();
+            }
+        }
+
+        function updateSummary() {
+            const total = ticketPrice * quantity;
+            document.getElementById('summaryPrice').textContent = `₹${ticketPrice}`;
+            document.getElementById('summaryQty').textContent = quantity;
+            document.getElementById('totalAmount').textContent = `₹${total}`;
+        }
+
+        function proceedToCheckout() {
+            if (!window.auth.isLoggedIn()) {
+                alert('Please login to continue booking');
+                window.location.href = 'user-login.html?redirect=event-booking.html?id=' + currentEvent.id;
+                return;
+            }
+
+            const bookingData = {
+                type: 'EVENT',
+                item: currentEvent,
+                quantity: quantity,
+                totalAmount: ticketPrice * quantity,
+                date: new Date().toISOString()
+            };
+
+            localStorage.setItem('currentBooking', JSON.stringify(bookingData));
+            window.location.href = 'checkout.html';
+        }
+    </script>
+</body>
+
+</html>

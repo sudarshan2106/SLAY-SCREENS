@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Theater | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="theater-container">
+        <div class="header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="movie-info">
+                <h1 class="glow-text" id="movieTitle">Loading...</h1>
+                <p id="movieDetails">Select your preferred theater and showtime</p>
+            </div>
+        </div>
+
+        <div class="theaters-list" id="theatersList">
+            <!-- Theaters will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <style>
+        .theater-container {
+            padding: 2rem 10%;
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(176, 38, 255, 0.2);
+            border-color: var(--neon-purple);
+        }
+
+        .movie-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .movie-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .theaters-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .theater-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .theater-card:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.3);
+        }
+
+        .theater-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .theater-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.3rem;
+        }
+
+        .theater-location {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .theater-distance {
+            background: rgba(0, 229, 255, 0.2);
+            color: var(--neon-blue);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .screen-types {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .screen-badge {
+            background: rgba(176, 38, 255, 0.2);
+            color: var(--neon-purple);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            border: 1px solid var(--neon-purple);
+        }
+
+        .showtimes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .showtime-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .showtime-btn:hover {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+        }
+
+        .showtime-time {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .showtime-price {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadTheaterSelection();
+        });
+
+        function loadTheaterSelection() {
+            const movie = JSON.parse(localStorage.getItem('selectedMovie'));
+
+            if (!movie) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Display movie info
+            document.getElementById('movieTitle').textContent = movie.title;
+            document.getElementById('movieDetails').textContent = movie.genre + ' • ' + movie.duration;
+
+            // Load theaters from localStorage (admin-managed)
+            const theaters = JSON.parse(localStorage.getItem('theaters')) || [];
+
+            if (theaters.length === 0) {
+                document.getElementById('theatersList').innerHTML = '<p style="text-align: center; padding: 2rem;">No theaters available. Please contact admin.</p>';
+                return;
+            }
+
+            displayTheaters(theaters, movie);
+        }
+
+        function displayTheaters(theaters, movie) {
+            const theatersList = document.getElementById('theatersList');
+
+            theatersList.innerHTML = theaters.map(theater => {
+                return '<div class="theater-card glass-card">' +
+                    '<div class="theater-header">' +
+                    '<div>' +
+                    '<div class="theater-name">' + theater.name + '</div>' +
+                    '<div class="theater-location">' +
+                    '<i class="fas fa-map-marker-alt"></i> ' + theater.location +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="theater-distance">' + theater.distance + '</div>' +
+                    '</div>' +
+                    '<div class="screen-types">' +
+                    theater.screens.map(screen => '<span class="screen-badge">' + screen + '</span>').join('') +
+                    '</div>' +
+                    '<div class="showtimes">' +
+                    theater.showtimes.map(showtime =>
+                        '<button class="showtime-btn" onclick="selectShowtime(\'' +
+                        theater.name.replace(/'/g, "\\'") + '\', \'' +
+                        theater.location.replace(/'/g, "\\'") + '\', \'' +
+                        showtime.time + '\', ' +
+                        showtime.price + ', \'' +
+                        showtime.screen + '\')">' +
+                        '<div class="showtime-time">' + showtime.time + '</div>' +
+                        '<div class="showtime-price">₹' + showtime.price + '</div>' +
+                        '<div class="showtime-price">' + showtime.screen + '</div>' +
+                        '</button>'
+                    ).join('') +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function selectShowtime(theaterName, location, time, price, screenType) {
+            const movie = JSON.parse(localStorage.getItem('selectedMovie'));
+
+            // Store theater selection
+            const theaterSelection = {
+                theater: theaterName,
+                location: location,
+                showtime: time,
+                ticketPrice: price,
+                screenType: screenType,
+                date: 'Today'
+            };
+
+            localStorage.setItem('selectedTheater', JSON.stringify(theaterSelection));
+
+            // Redirect to seat selection
+            window.location.href = 'seat-selection.html';
+        }
+    </script>
+</body>
+
+</html>

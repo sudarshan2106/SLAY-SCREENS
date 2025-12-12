@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slay Screens | Gen-Z Movie Booking</title>
+    <link rel="stylesheet" href="css/style.css?v=7">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=7">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+
+    <!-- Navigation -->
+    <nav class="glass navbar">
+        <div class="logo glow-text">SLAY SCREENS</div>
+        <div class="search-bar glass-card">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for movies, events, sports...">
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Movies</a>
+            <a href="stream.html">Stream</a>
+            <a href="events.html">Events</a>
+            <a href="sports.html">Sports</a>
+        </div>
+
+        <!-- User Profile / Sign In Button -->
+        <div id="userSection">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <header class="hero-section">
+        <div class="hero-slider">
+            <!-- Slides will be populated dynamically -->
+        </div>
+    </header>
+
+    <!-- Floating Admin Registration Button -->
+    <button class="floating-admin-btn" onclick="registerAsAdmin()" title="Register as Admin">
+        <i class="fas fa-user-shield"></i>
+    </button>
+
+
+    function initHeroSlider() {
+    const sliderContainer = document.querySelector('.hero-slider');
+    if (!sliderContainer || !window.movies || window.movies.length === 0) return;
+
+    sliderContainer.innerHTML = '';
+    const sliderMovies = window.movies.slice(0, 30);
+
+    sliderMovies.forEach((movie, index) => {
+    const slide = document.createElement('div');
+    slide.className = `slide ${index === 0 ? 'active' : ''}`;
+    const bgImage = movie.backdrop || movie.poster;
+    slide.style.backgroundImage = `url('${bgImage}')`;
+
+    slide.innerHTML = `
+    <div class="hero-content">
+        <h1 class="glow-text">${movie.title}</h1>
+        <div class="hero-meta">
+            <span><i class="fas fa-star" style="color: var(--neon-yellow)"></i> ${movie.rating}</span>
+            <span>|</span>
+            <span>${movie.genre}</span>
+            <span>|</span>
+            <span>${movie.duration}</span>
+        </div>
+        <div class="hero-meta" style="margin-top: -10px; font-size: 1rem; color: var(--text-muted);">
+            <span>Director: <span style="color: white;">${movie.director || 'Unknown'}</span></span>
+        </div>
+        <p class="hero-description">${movie.description}</p>
+
+        <button class="neon-btn neon-btn-primary" onclick="selectMovie('${movie.id}')">
+            <i class="fas fa-ticket-alt"></i> Book Tickets
+        </button>
+
+        <div class="hero-features">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/IMAX_logo.svg/1200px-IMAX_logo.svg.png"
+                class="tech-logo" alt="IMAX">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Dolby_Atmos_Logo.svg/2560px-Dolby_Atmos_Logo.svg.png"
+                class="tech-logo" alt="Dolby Atmos">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/4DX_Logo.svg/1200px-4DX_Logo.svg.png"
+                class="tech-logo" alt="4DX">
+        </div>
+    </div>
+    `;
+    sliderContainer.appendChild(slide);
+    });
+
+    const slides = document.querySelectorAll('.hero-slider .slide');
+    let currentSlide = 0;
+
+    setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+    }, 3000);
+    }
+
+    // Update user section
+    function updateUserSection() {
+    const userSection = document.getElementById('userSection');
+    if (!userSection) return;
+
+    if (window.auth && window.auth.isLoggedIn()) {
+    const user = window.auth.getCurrentUser();
+    const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+    userSection.innerHTML = `
+    <div class="user-profile">
+        <div class="profile-btn" onclick="toggleProfileDropdown()">
+            <div class="profile-avatar">${initials}</div>
+            <span>${user.name.split(' ')[0]}</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+                <h4>${user.name}</h4>
+                <p>${user.email}</p>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profile.html"><i class="fas fa-user"></i> My Profile</a></li>
+                <li><a href="bookings.html"><i class="fas fa-ticket-alt"></i> My Bookings</a></li>
+                ${user.role === 'ADMIN' ? '<li><a href="admin/dashboard.html"><i class="fas fa-shield-alt"></i> Admin
+                        Panel</a></li>' : ''}
+                <li><button onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </div>
+    </div>
+    `;
+    } else {
+    userSection.innerHTML = '<button class="neon-btn neon-btn-primary" onclick="handleSignIn()">Sign In</button>';
+    }
+    }
+
+    function toggleProfileDropdown() {
+    const dropdown = document.getElementById('profileDropdown');
+    if (dropdown) dropdown.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function (event) {
+    const dropdown = document.getElementById('profileDropdown');
+    const profileBtn = document.querySelector('.profile-btn');
+    if (dropdown && !profileBtn?.contains(event.target)) {
+    dropdown.classList.remove('show');
+    }
+    });
+
+    function registerAsAdmin() {
+    window.location.href = 'register.html?role=admin';
+    }
+
+    </script>
+</body>
+
+</html>

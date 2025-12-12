@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card glass-card">
+            <div class="auth-header">
+                <h1 class="glow-text">Welcome Back</h1>
+                <p>Sign in to continue to Slay Screens</p>
+            </div>
+
+            <div id="message"></div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" name="email" class="glass-input" placeholder="Enter your email" required
+                        autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" name="password" class="glass-input" placeholder="Enter your password"
+                        required>
+                </div>
+
+                <button type="submit" class="neon-btn neon-btn-primary auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="register.html" class="glow-link">Register here</a></p>
+            </div>
+
+            <div class="demo-credentials">
+                <p
+                    style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <strong>Demo Credentials:</strong><br>
+                    <span style="color: var(--neon-blue);">User:</span> john@example.com / user123<br>
+                    <span style="color: var(--neon-purple);">Admin:</span> admin@slayscreens.com / admin123
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, rgba(176, 38, 255, 0.1), var(--bg-dark));
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            padding: 2.5rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+        }
+
+        .auth-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group label i {
+            margin-right: 5px;
+            color: var(--neon-purple);
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .glass-input:focus {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.3);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glow-link {
+            color: var(--neon-purple);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .glow-link:hover {
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        #message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        #message.success {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        #message.error {
+            background: rgba(255, 0, 136, 0.2);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+        }
+
+        .demo-credentials {
+            text-align: center;
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function showMessage(message, type) {
+            const msgDiv = document.getElementById('message');
+            msgDiv.textContent = message;
+            msgDiv.className = type;
+            msgDiv.style.display = 'block';
+
+            setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Handle Login
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const email = formData.get('email');
+            const password = formData.get('password');
+
+            const result = window.auth.login(email, password);
+
+            if (result.success) {
+                showMessage(result.message, 'success');
+
+                // Check for redirect after login
+                if (window.auth.handleRedirectAfterLogin()) {
+                    return;
+                }
+
+                // Redirect based on role
+                setTimeout(() => {
+                    if (result.user.role === 'ADMIN') {
+                        window.location.href = 'admin/dashboard.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        });
+
+        // Check if already logged in
+        if (window.auth.isLoggedIn()) {
+            const user = window.auth.getCurrentUser();
+            if (user.role === 'ADMIN') {
+                window.location.href = 'admin/dashboard.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

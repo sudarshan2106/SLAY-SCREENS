@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Database - Slay Screens</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff0088, #b026ff);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(176, 38, 255, 0.5);
+        }
+
+        .success {
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid #00ff88;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .info {
+            background: rgba(0, 229, 255, 0.2);
+            border: 2px solid #00e5ff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔄 Reset Database</h1>
+
+        <div class="info">
+            <strong>Current Status:</strong>
+            <p id="status">Checking...</p>
+        </div>
+
+        <p>This will clear all corrupted data and restore default movies, streams, events, and sports.</p>
+
+        <button onclick="resetAllData()">Reset All Data</button>
+        <button onclick="window.location.href='index.html'"
+            style="background: linear-gradient(135deg, #00e5ff, #00ff88);">Go to Home</button>
+
+        <div class="success" id="successMsg">
+            <strong>✅ Success!</strong>
+            <p>Database has been reset. You can now go to the admin panel to add new content.</p>
+        </div>
+    </div>
+
+    <script>
+        // Check current data status
+        function checkStatus() {
+            const movies = JSON.parse(localStorage.getItem('movies') || '[]');
+            const stream = JSON.parse(localStorage.getItem('adminStream') || '[]');
+            const events = JSON.parse(localStorage.getItem('adminEvents') || '[]');
+            const sports = JSON.parse(localStorage.getItem('adminSports') || '[]');
+
+            document.getElementById('status').innerHTML = `
+                Movies: ${movies.length} items<br>
+                Stream: ${stream.length} items<br>
+                Events: ${events.length} items<br>
+                Sports: ${sports.length} items
+            `;
+        }
+
+        function resetAllData() {
+            if (!confirm('Are you sure you want to reset all data? This will delete everything and restore defaults.')) {
+                return;
+            }
+
+            // Clear all data
+            localStorage.clear();
+
+            // Initialize default admin user
+            const defaultUsers = [
+                {
+                    id: 1,
+                    name: 'Admin User',
+                    email: 'admin@slayscreens.com',
+                    phone: '9999999999',
+                    password: 'admin123',
+                    role: 'ADMIN',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    phone: '9876543210',
+                    password: 'user123',
+                    role: 'USER',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            localStorage.setItem('users', JSON.stringify(defaultUsers));
+
+            // Initialize default movies
+            const defaultMovies = [
+                {
+                    id: 1,
+                    title: "Venom: The Last Dance",
+                    genre: "Action/Sci-Fi",
+                    duration: "2h 15m",
+                    rating: 8.5,
+                    director: "Kelly Marcel",
+                    poster: "https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg",
+                    backdrop: "https://image.tmdb.org/t/p/original/3V4kLQg0kSqPLctI5ziYWabAZYF.jpg",
+                    description: "Eddie and Venom are on the run. Hunted by both of their worlds.",
+                    price: 250,
+                    releaseDate: "2024-10-25",
+                    status: "Active"
+                },
+                {
+                    id: 2,
+                    title: "The Wild Robot",
+                    genre: "Animation",
+                    duration: "1h 45m",
+                    rating: 9.0,
+                    director: "Chris Sanders",
+                    poster: "https://image.tmdb.org/t/p/w500/aosm8NMQ3UyoBVpSxyimorCQykC.jpg",
+                    backdrop: "https://image.tmdb.org/t/p/original/v9acaJ6863OHOpOVQuLAduGo3sp.jpg",
+                    description: "A robot washed ashore on an uninhabited island must learn to adapt.",
+                    price: 200,
+                    releaseDate: "2024-09-27",
+                    status: "Active"
+                },
+                {
+                    id: 3,
+                    title: "Joker: Folie à Deux",
+                    genre: "Drama/Thriller",
+                    duration: "2h 18m",
+                    rating: 7.8,
+                    director: "Todd Phillips",
+                    poster: "https://image.tmdb.org/t/p/w500/wTnV3PCVW5O92JMrFvvrRcV39RU.jpg",
+                    backdrop: "https://image.tmdb.org/t/p/original/u3YQJctMzFN2wVonHCLE7XfS06p.jpg",
+                    description: "Arthur Fleck is institutionalized at Arkham awaiting trial.",
+                    price: 300,
+                    releaseDate: "2024-10-04",
+                    status: "Active"
+                },
+                {
+                    id: 4,
+                    title: "Inside Out 2",
+                    genre: "Animation",
+                    duration: "1h 36m",
+                    rating: 8.9,
+                    director: "Kelsey Mann",
+                    poster: "https://image.tmdb.org/t/p/w500/p5ozvmdgsmbWe0H8Xk7RdAso5y2.jpg",
+                    backdrop: "https://image.tmdb.org/t/p/original/xg27NrXi7VXCGUr7GWwGold9Y77.jpg",
+                    description: "Riley enters puberty and experiences brand new emotions.",
+                    price: 220,
+                    releaseDate: "2024-06-14",
+                    status: "Active"
+                },
+                {
+                    id: 5,
+                    title: "Deadpool & Wolverine",
+                    genre: "Action/Comedy",
+                    duration: "2h 07m",
+                    rating: 8.8,
+                    director: "Shawn Levy",
+                    poster: "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+                    backdrop: "https://image.tmdb.org/t/p/original/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg",
+                    description: "Wolverine is recovering from his injuries when he crosses paths with the loudmouth Deadpool.",
+                    price: 280,
+                    releaseDate: "2024-07-26",
+                    status: "Active"
+                }
+            ];
+            localStorage.setItem('movies', JSON.stringify(defaultMovies));
+
+            // Initialize default stream content
+            const defaultStream = [
+                {
+                    id: 1,
+                    title: "Oppenheimer",
+                    genre: "Biography",
+                    duration: "3h 00m",
+                    rating: 8.9,
+                    poster: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+                    description: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
+                    status: "Active"
+                },
+                {
+                    id: 2,
+                    title: "Barbie",
+                    genre: "Comedy",
+                    duration: "1h 54m",
+                    rating: 7.4,
+                    poster: "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+                    description: "Barbie suffers a crisis that leads her to question her world and her existence.",
+                    status: "Active"
+                }
+            ];
+            localStorage.setItem('adminStream', JSON.stringify(defaultStream));
+
+            // Initialize default events
+            const defaultEvents = [
+                {
+                    id: 1,
+                    name: "Rock Concert 2024",
+                    category: "Music",
+                    date: "2024-12-20",
+                    time: "19:00",
+                    venue: "City Stadium",
+                    price: 1500,
+                    poster: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500",
+                    description: "The biggest rock concert of the year featuring top artists.",
+                    status: "Active"
+                },
+                {
+                    id: 2,
+                    name: "Stand-Up Comedy Night",
+                    category: "Comedy",
+                    date: "2024-12-18",
+                    time: "20:00",
+                    venue: "Laugh Factory",
+                    price: 800,
+                    poster: "https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=500",
+                    description: "An evening of laughter with top comedians.",
+                    status: "Active"
+                }
+            ];
+            localStorage.setItem('adminEvents', JSON.stringify(defaultEvents));
+
+            // Initialize default sports
+            const defaultSports = [
+                {
+                    id: 1,
+                    team1: "Mumbai Indians",
+                    team2: "Chennai Super Kings",
+                    sportType: "Cricket",
+                    league: "IPL",
+                    date: "2024-12-20",
+                    time: "19:30",
+                    venue: "Wankhede Stadium",
+                    price: 1500,
+                    status: "Active"
+                },
+                {
+                    id: 2,
+                    team1: "FC Goa",
+                    team2: "Mumbai City FC",
+                    sportType: "Football",
+                    league: "ISL",
+                    date: "2024-12-18",
+                    time: "19:30",
+                    venue: "Fatorda Stadium",
+                    price: 500,
+                    status: "Active"
+                }
+            ];
+            localStorage.setItem('adminSports', JSON.stringify(defaultSports));
+
+            // Initialize default theaters
+            const defaultTheaters = [
+                {
+                    id: 1,
+                    name: 'INOX: Megaplex',
+                    location: 'Phoenix Marketcity, Mumbai',
+                    distance: '2.5 km',
+                    screens: ['IMAX', '4DX', 'Regular'],
+                    showtimes: [
+                        { time: '10:00 AM', price: 200, screen: 'Regular' },
+                        { time: '01:30 PM', price: 250, screen: 'Regular' },
+                        { time: '04:45 PM', price: 300, screen: 'IMAX' },
+                        { time: '07:30 PM', price: 350, screen: '4DX' },
+                        { time: '10:15 PM', price: 250, screen: 'Regular' }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: 'PVR: Gold',
+                    location: 'Juhu, Mumbai',
+                    distance: '4.2 km',
+                    screens: ['Gold Class', 'Regular'],
+                    showtimes: [
+                        { time: '11:00 AM', price: 400, screen: 'Gold Class' },
+                        { time: '02:00 PM', price: 220, screen: 'Regular' },
+                        { time: '05:30 PM', price: 450, screen: 'Gold Class' },
+                        { time: '08:45 PM', price: 280, screen: 'Regular' }
+                    ]
+                }
+            ];
+            localStorage.setItem('theaters', JSON.stringify(defaultTheaters));
+
+            // Show success message
+            document.getElementById('successMsg').style.display = 'block';
+            checkStatus();
+
+            alert('✅ Database reset successfully! All default data has been restored.');
+        }
+
+        // Check status on load
+        checkStatus();
+    </script>
+</body>
+
+</html>

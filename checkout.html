@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="checkout-container">
+        <h1 class="glow-text" style="margin-bottom: 2rem;">Checkout</h1>
+
+        <div class="checkout-grid">
+            <!-- Order Summary -->
+            <div class="summary-card glass-card">
+                <h2>Order Summary</h2>
+                <div class="item">
+                    <span>Movie</span>
+                    <span class="movie-title">Loading...</span>
+                </div>
+                <div class="item">
+                    <span>Theatre</span>
+                    <span>INOX: Megaplex</span>
+                </div>
+                <div class="item">
+                    <span>Date & Time</span>
+                    <span><span class="date-info">Today</span>, <span class="time-info">07:30 PM</span></span>
+                </div>
+                <div class="item">
+                    <span>Seats</span>
+                    <span class="seats-info">Loading...</span>
+                </div>
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 1rem 0;">
+                <div class="item total">
+                    <span>Total Amount</span>
+                    <span class="total-amount">$0</span>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="payment-card glass-card">
+                <h2>Payment Method</h2>
+                <div class="payment-options">
+                    <div class="option selected">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Credit Card</span>
+                    </div>
+                    <div class="option">
+                        <i class="fab fa-google-pay"></i>
+                        <span>UPI / GPay</span>
+                    </div>
+                    <div class="option">
+                        <i class="fas fa-wallet"></i>
+                        <span>Wallet</span>
+                    </div>
+                </div>
+
+                <form class="payment-form">
+                    <div class="input-group">
+                        <label>Name on Card</label>
+                        <input type="text" name="name" placeholder="John Doe" class="glass-input" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="john@example.com" class="glass-input" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Phone</label>
+                        <input type="tel" name="phone" placeholder="+1 234 567 890" class="glass-input" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Card Number</label>
+                        <input type="text" placeholder="XXXX XXXX XXXX XXXX" class="glass-input">
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Expiry</label>
+                            <input type="text" placeholder="MM/YY" class="glass-input">
+                        </div>
+                        <div class="input-group">
+                            <label>CVV</label>
+                            <input type="password" placeholder="123" class="glass-input">
+                        </div>
+                    </div>
+                    <button type="submit" class="neon-btn neon-btn-primary pay-btn"
+                        style="width: 100%; margin-top: 1rem;">Pay & Book</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .checkout-container {
+            padding: 4rem 10%;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+        }
+
+        .summary-card,
+        .payment-card {
+            padding: 2rem;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .item.total {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover,
+        .option.selected {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            border-color: var(--neon-blue);
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        .glass-input:focus {
+            border-color: var(--neon-purple);
+        }
+
+        .row {
+            display: flex;
+            gap: 1rem;
+        }
+    </style>
+
+    <script src="js/checkout.js"></script>
+
+</body>
+
+</html>

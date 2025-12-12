@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initialize GoTrip Data</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .init-container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .glass-card {
+            padding: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--neon-pink);
+        }
+
+        p {
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .status {
+            margin: 2rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .status.error {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+        }
+
+        .data-list {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .data-list h3 {
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .data-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-list li {
+            padding: 0.3rem 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .data-list li:before {
+            content: "✓ ";
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="init-container">
+        <div class="glass-card">
+            <h1 class="glow-text">🚀 Initialize GoTrip Data</h1>
+            <p>Click the button below to populate your GoTrip application with comprehensive content including 25+
+                movies,
+                theaters, streaming shows, events, and sports matches with Indian locations.</p>
+
+            <div class="data-list">
+                <h3>📦 What will be added:</h3>
+                <ul>
+                    <li>25+ Movies (Bollywood, Hollywood, Regional) with Cast & Crew</li>
+                    <li>45+ Streaming Shows (Web Series, TV Shows)</li>
+                    <li>45+ Events (Concerts, Comedy, Festivals)</li>
+                    <li>45+ Sports Matches (Cricket, Football, Kabaddi)</li>
+                    <li>45+ Theaters (PVR, INOX, Cinepolis across India)</li>
+                </ul>
+            </div>
+
+            <div class="btn-group">
+                <button class="neon-btn neon-btn-primary" onclick="initializeData()">
+                    Initialize All Data
+                </button>
+                <button class="neon-btn" onclick="clearAllData()" style="background: rgba(255, 0, 85, 0.2);">
+                    Clear All Data
+                </button>
+            </div>
+
+            <div id="status" class="status"></div>
+
+            <div class="btn-group" style="margin-top: 2rem;">
+                <button class="neon-btn" onclick="window.location.href='index.html'">
+                    Go to Homepage
+                </button>
+                <button class="neon-btn" onclick="window.location.href='admin-login.html'">
+                    Go to Admin Panel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initializeData() {
+            try {
+                // 1. Movies (25 Items) - Real TMDB API Data
+                const movies = [
+                    { id: 101, title: 'Zootopia 2', genre: 'Animation/Adventure', duration: '2h', rating: 7.7, price: 350, poster: 'https://image.tmdb.org/t/p/w500/oJ7g2CifqpStmoYQyaLQgEU32qO.jpg', backdrop: 'https://image.tmdb.org/t/p/original/5h2EsPKNDdB3MAtOk9MB9Ycg9Rz.jpg', description: 'After cracking the biggest case in Zootopia\'s history, rookie cops Judy Hopps and Nick Wilde find themselves on the twisting trail of a great mystery.', status: 'Active', director: 'Jared Bush', releaseDate: '2025-11-26', cast: [{ name: 'Ginnifer Goodwin', character: 'Judy Hopps (voice)', photo: 'https://image.tmdb.org/t/p/w185/n8XOnjgyfYvqRUDcnkAckRqSaNN.jpg' }, { name: 'Jason Bateman', character: 'Nick Wilde (voice)', photo: 'https://image.tmdb.org/t/p/w185/8e6mt0vGjPo6eW52gqRuXy5YnfN.jpg' }, { name: 'Ke Huy Quan', character: 'Gary De Snake (voice)', photo: 'https://image.tmdb.org/t/p/w185/iestHyn7PLuVowj5Jaa1SGPboQ4.jpg' }] },
+                    { id: 102, title: 'TRON: Ares', genre: 'Sci-Fi/Action', duration: '2h 10m', rating: 6.6, price: 380, poster: 'https://image.tmdb.org/t/p/w500/chpWmskl3aKm1aTZqUHRCtviwPy.jpg', backdrop: 'https://image.tmdb.org/t/p/original/min9ZUDZbiguTiQ7yz1Hbqk78HT.jpg', description: 'A highly sophisticated Program called Ares is sent from the digital world into the real world on a dangerous mission.', status: 'Active', director: 'Joachim Rønning', releaseDate: '2025-10-08', cast: [{ name: 'Jared Leto', character: 'Ares', photo: 'https://image.tmdb.org/t/p/w185/aNUvy7cpa78NRjCvHi5vYuNJRtj.jpg' }, { name: 'Greta Lee', character: 'Eve Kim', photo: 'https://image.tmdb.org/t/p/w185/6SydTis4XUcovlwIGskT59JowLX.jpg' }, { name: 'Evan Peters', character: 'Julian Dillinger', photo: 'https://image.tmdb.org/t/p/w185/n4yb5deDWPsvSQ9KLm0WR2Q2elC.jpg' }] },
+                    { id: 103, title: 'Troll 2', genre: 'Action/Fantasy', duration: '2h 5m', rating: 6.8, price: 320, poster: 'https://image.tmdb.org/t/p/w500/p6xAExLNFbHcLfvSuvLPoM8aqZU.jpg', backdrop: 'https://image.tmdb.org/t/p/original/lZYMXx74pWmbj5Q5jp1QaMvmuuR.jpg', description: 'When a dangerous new troll unleashes devastation across their homeland, Nora, Andreas and Major Kris embark on their most perilous mission yet.', status: 'Active', director: 'Roar Uthaug', releaseDate: '2025-11-30', cast: [{ name: 'Ine Marie Wilmann', character: 'Nora Tidemann', photo: 'https://image.tmdb.org/t/p/w185/6uQlF0RdwLGaWezFsn9429HE6zu.jpg' }, { name: 'Kim S. Falck-Jørgensen', character: 'Andreas Isaksen', photo: 'https://image.tmdb.org/t/p/w185/pMwD3F5ANWQNF9UU3KivLt2EgFa.jpg' }] },
+                    { id: 104, title: 'Oppenheimer', genre: 'Biography/Drama', duration: '3h 0m', rating: 8.1, price: 350, poster: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg', backdrop: 'https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaB0B.jpg', description: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.', status: 'Active', director: 'Christopher Nolan', releaseDate: '2023-07-21' },
+                    { id: 105, title: 'Barbie', genre: 'Comedy/Fantasy', duration: '1h 54m', rating: 7.0, price: 250, poster: 'https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg', backdrop: 'https://image.tmdb.org/t/p/original/ctMserH8g2SeOAnCw5gFjdQF8mo.jpg', description: 'Barbie suffers a crisis that leads her to question her world and her place in it.', status: 'Active', director: 'Greta Gerwig', releaseDate: '2023-07-21' },
+                    { id: 106, title: 'Kantara - A Legend: Chapter 1', genre: 'Action/Fantasy', duration: '2h 30m', rating: 7.0, price: 280, poster: 'https://image.tmdb.org/t/p/w500/zBvw25afDn93embB8L7FzvTT2xq.jpg', backdrop: 'https://image.tmdb.org/t/p/original/w57nxiBIODAYHLRs1xmrCY9zEFe.jpg', description: 'During the Kadamba reign, King Vijayendra meets his final fate while venturing into the mystical forest of Kantara.', status: 'Active', director: 'Rishab Shetty', releaseDate: '2025-10-01' },
+                    { id: 107, title: 'Avatar: The Way of Water', genre: 'Sci-Fi/Adventure', duration: '3h 12m', rating: 7.6, price: 400, poster: 'https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsS.jpg', backdrop: 'https://image.tmdb.org/t/p/original/s16H6tpK2UTCTjd.jpg', description: 'Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.', status: 'Active', director: 'James Cameron', releaseDate: '2022-12-16' },
+                    { id: 108, title: 'Frankenstein', genre: 'Drama/Horror', duration: '2h 15m', rating: 7.8, price: 340, poster: 'https://image.tmdb.org/t/p/w500/g4JtvGlQO7DByTI6frUobqvSL3R.jpg', backdrop: 'https://image.tmdb.org/t/p/original/hpXBJxLD2SEf8l2CspmSeiHrBKX.jpg', description: 'Dr. Victor Frankenstein brings a creature to life in a monstrous experiment that ultimately leads to the undoing of both.', status: 'Active', director: 'Guillermo del Toro', releaseDate: '2025-10-17' },
+                    { id: 109, title: 'Wicked: For Good', genre: 'Fantasy/Musical', duration: '2h 30m', rating: 6.8, price: 360, poster: 'https://image.tmdb.org/t/p/w500/jdd0Qv6V8AJ3V7Dr8aMIMUWxZ2c.jpg', backdrop: 'https://image.tmdb.org/t/p/original/l8pwO23MCvqYumzozpxynCNfck1.jpg', description: 'As an angry mob rises against the Wicked Witch, Glinda and Elphaba must come together one final time.', status: 'Active', director: 'Jon M. Chu', releaseDate: '2025-11-19' },
+                    { id: 110, title: 'Predator: Badlands', genre: 'Sci-Fi/Action', duration: '2h', rating: 7.4, price: 330, poster: 'https://image.tmdb.org/t/p/w500/pHpq9yNUIo6aDoCXEBzjSolywgz.jpg', backdrop: 'https://image.tmdb.org/t/p/original/ebyxeBh56QNXxSJgTnmz7fXAlwk.jpg', description: 'Cast out from his clan, a young Predator finds an unlikely ally in a damaged android.', status: 'Active', director: 'Dan Trachtenberg', releaseDate: '2025-11-05' },
+                    { id: 111, title: 'The Running Man', genre: 'Action/Thriller', duration: '2h 10m', rating: 6.7, price: 310, poster: 'https://image.tmdb.org/t/p/w500/dKL78O9zxczVgjtNcQ9UkbYLzqX.jpg', backdrop: 'https://image.tmdb.org/t/p/original/aHj7d7wSLqrg5cjAcgHhiGr97Ih.jpg', description: 'Ben Richards is convinced to enter the deadly competition game as a last resort to save his sick daughter.', status: 'Active', director: 'Edgar Wright', releaseDate: '2025-11-11' },
+                    { id: 112, title: 'Dracula', genre: 'Horror/Romance', duration: '2h 20m', rating: 7.1, price: 320, poster: 'https://image.tmdb.org/t/p/w500/ykyRfv7JDofLxXLAwtLXaSuaFfM.jpg', backdrop: 'https://image.tmdb.org/t/p/original/otSXrUWOTX7tTigLBMFKOV8n47r.jpg', description: 'When a 15th-century prince denounces God after the loss of his wife, he becomes Dracula.', status: 'Active', director: 'Luc Besson', releaseDate: '2025-07-30' },
+                    { id: 113, title: 'High Rollers', genre: 'Action/Crime', duration: '2h', rating: 6.4, price: 290, poster: 'https://image.tmdb.org/t/p/w500/hHowAaChDjwueySmwVbsjHmpWa.jpg', backdrop: 'https://image.tmdb.org/t/p/original/me3SisKfnxwBP69aOVKAVMw9vDM.jpg', description: 'A master thief must pull off a dangerous casino heist when his nemesis kidnaps his lover.', status: 'Active', director: 'Jesse V. Johnson', releaseDate: '2025-03-14' },
+                    { id: 114, title: 'Bureau 749', genre: 'Action/Sci-Fi', duration: '2h 5m', rating: 6.1, price: 280, poster: 'https://image.tmdb.org/t/p/w500/flykCMw22y6yv8vKnBjmsW3pneo.jpg', backdrop: 'https://image.tmdb.org/t/p/original/lf8IZ86ajGpgbuyHCZrXUeAMmvy.jpg', description: 'A traumatized young man is forced to join a mysterious bureau to confront a disaster spreading across earth.', status: 'Active', director: 'Lu Chuan', releaseDate: '2024-10-01' },
+                    { id: 115, title: 'War of the Worlds', genre: 'Sci-Fi/Thriller', duration: '2h 15m', rating: 4.3, price: 300, poster: 'https://image.tmdb.org/t/p/w500/yvirUYrva23IudARHn3mMGVxWqM.jpg', backdrop: 'https://image.tmdb.org/t/p/original/iZLqwEwUViJdSkGVjePGhxYzbDb.jpg', description: 'A Homeland Security analyst tracks potential threats until an attack by an unknown entity leads him to question the truth.', status: 'Active', director: 'Josh Fridman', releaseDate: '2025-07-29' },
+                    { id: 116, title: 'The Shadows Edge', genre: 'Action/Crime', duration: '2h', rating: 6.5, price: 270, poster: 'https://image.tmdb.org/t/p/w500/e0RU6KpdnrqFxDKlI3NOqN8nHL6.jpg', backdrop: 'https://image.tmdb.org/t/p/original/4BtL2vvEufDXDP4u6xQjjQ1Y2aT.jpg', description: 'Macau Police brings a tracking expert out of retirement to help catch dangerous thieves.', status: 'Active', director: 'Herman Yau', releaseDate: '2025-08-16' },
+                    { id: 117, title: 'Wildcat', genre: 'Action/Thriller', duration: '2h', rating: 6.1, price: 290, poster: 'https://image.tmdb.org/t/p/w500/h893ImjM6Fsv5DFhKJdlZFZIJno.jpg', backdrop: 'https://image.tmdb.org/t/p/original/pAyImoslSnpMgjRwhaS5ZEdl8UI.jpg', description: 'An ex-black ops team reunite to pull off a desperate heist to save their leaders eight-year-old daughter.', status: 'Active', director: 'Jonathan W. Stokes', releaseDate: '2025-11-19' },
+                    { id: 118, title: 'Altered', genre: 'Sci-Fi/Action', duration: '2h', rating: 6.2, price: 280, poster: 'https://image.tmdb.org/t/p/w500/6QlAcGRaUrgHcZ4WTBh5lsPnzKx.jpg', backdrop: 'https://image.tmdb.org/t/p/original/q9bvjUkpKltPE0S9oxci2pmD1Zx.jpg', description: 'In an alternate present, genetically enhanced humans dominate society as outcasts fight for justice.', status: 'Active', director: 'Timo Vuorensola', releaseDate: '2025-09-18' },
+                    { id: 119, title: 'Avatar: Fire and Ash', genre: 'Sci-Fi/Adventure', duration: '3h', rating: 5.2, price: 420, poster: 'https://image.tmdb.org/t/p/w500/g96wHxU7EnoIFwemb2RgohIXrgW.jpg', backdrop: 'https://image.tmdb.org/t/p/original/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg', description: 'Jake Sully and Neytiri face a new threat: the Ash People, a violent Na vi tribe led by the ruthless Varang.', status: 'Active', director: 'James Cameron', releaseDate: '2025-12-17' },
+                    { id: 120, title: 'Now You See Me: Now You Dont', genre: 'Thriller/Crime', duration: '2h 10m', rating: 6.3, price: 300, poster: 'https://image.tmdb.org/t/p/w500/oD3Eey4e4Z259XLm3eD3WGcoJAh.jpg', backdrop: 'https://image.tmdb.org/t/p/original/ufqytAlziHq5pljKByGJ8IKhtEZ.jpg', description: 'The original Four Horsemen reunite with a new generation of illusionists for their most ambitious heist yet.', status: 'Active', director: 'Ruben Fleischer', releaseDate: '2025-11-12' },
+                    { id: 121, title: 'Demon Slayer: Infinity Castle', genre: 'Animation/Action', duration: '2h', rating: 7.6, price: 340, poster: 'https://image.tmdb.org/t/p/w500/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg', backdrop: 'https://image.tmdb.org/t/p/original/1RgPyOhN4DRs225BGTlHJqCudII.jpg', description: 'The Demon Slayer Corps are drawn into the Infinity Castle for a desperate fight against Muzan Kibutsuji.', status: 'Active', director: 'Haruo Sotozaki', releaseDate: '2025-07-18' },
+                    { id: 122, title: 'The Family Plan 2', genre: 'Action/Comedy', duration: '2h', rating: 6.7, price: 280, poster: 'https://image.tmdb.org/t/p/w500/semFxuYx6HcrkZzslgAkBqfJvZk.jpg', backdrop: 'https://image.tmdb.org/t/p/original/7nAVXGHHtaNcdsqvDXmY6R9N0fG.jpg', description: 'Dan books a family trip to London putting them all in the crosshairs of an unexpected enemy.', status: 'Active', director: 'Simon Cellan Jones', releaseDate: '2025-11-11' },
+                    { id: 123, title: 'Bugonia', genre: 'Sci-Fi/Comedy', duration: '1h 50m', rating: 7.5, price: 260, poster: 'https://image.tmdb.org/t/p/w500/oxgsAQDAAxA92mFGYCZllgWkH9J.jpg', backdrop: 'https://image.tmdb.org/t/p/original/tN3pTxkQoP96wtaEahYuRVdUWb2.jpg', description: 'Two conspiracy obsessed young men kidnap the high-powered CEO convinced she is an alien.', status: 'Active', director: 'Yorgos Lanthimos', releaseDate: '2025-10-23' },
+                    { id: 124, title: 'She Rides Shotgun', genre: 'Action/Thriller', duration: '2h', rating: 7.1, price: 290, poster: 'https://image.tmdb.org/t/p/w500/nvqW8mOm818QDio3GKKmPLK8kXj.jpg', backdrop: 'https://image.tmdb.org/t/p/original/wR9D9hQvCVBux16NauY4b7letdU.jpg', description: 'Newly released from prison, Nate must protect his estranged 11-year-old daughter from unrelenting enemies.', status: 'Active', director: 'Ang Lee', releaseDate: '2025-07-31' },
+                    { id: 125, title: 'KPop Demon Hunters', genre: 'Fantasy/Animation', duration: '1h 45m', rating: 8.2, price: 310, poster: 'https://image.tmdb.org/t/p/w500/zT7Lhw3BhJbMkRqm9Zlx2YGMsY0.jpg', backdrop: 'https://image.tmdb.org/t/p/original/w3Bi0wygeFQctn6AqFTwhGNXRwL.jpg', description: 'K-pop superstars use their secret powers to protect their fans from supernatural threats.', status: 'Active', director: 'Maggie Kang', releaseDate: '2025-06-20' },
+                ];
+                localStorage.setItem('movies', JSON.stringify(movies));
+
+                // 2. Streams (25 Items)
+                const streamContent = [
+                    { id: 201, title: 'Mirzapur', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/201/500/750', description: 'A shocking incident at a wedding procession ignites a series of events.', status: 'Active' },
+                    { id: 202, title: 'The Family Man', genre: 'Action/Comedy', poster: 'https://picsum.photos/seed/202/500/750', description: 'A working man from the National Investigation Agency tries to protect the nation.', status: 'Active' },
+                    { id: 203, title: 'Sacred Games', genre: 'Crime/Drama', poster: 'https://picsum.photos/seed/203/500/750', description: 'A link in their pasts leads an honest cop to a fugitive gang boss.', status: 'Active' },
+                    { id: 204, title: 'Pataal Lok', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/204/500/750', description: 'A down-and-out cop lands the case of a lifetime when four suspects are nabbed in the assassination attempt of a journalist.', status: 'Active' },
+                    { id: 205, title: 'Scam 1992', genre: 'Biography/Crime', poster: 'https://picsum.photos/seed/205/500/750', description: 'Set in 1980s and 90\'s Bombay, it follows the life of Harshad Mehta.', status: 'Active' },
+                    { id: 206, title: 'Asur', genre: 'Thriller/Mystery', poster: 'https://picsum.photos/seed/206/500/750', description: 'A unique crime thriller that pits two opposing worlds against each other.', status: 'Active' },
+                    { id: 207, title: 'Farzi', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/207/500/750', description: 'An artist gets pulled into the murky high stakes of a con job.', status: 'Active' },
+                    { id: 208, title: 'Rocket Boys', genre: 'Drama/History', poster: 'https://picsum.photos/seed/208/500/750', description: 'The story of two extraordinary men, Dr. Homi J. Bhabha and Dr. Vikram Sarabhai.', status: 'Active' },
+                    { id: 209, title: 'Delhi Crime', genre: 'Crime/Drama', poster: 'https://picsum.photos/seed/209/500/750', description: 'Based on the Nirbhaya case, Delhi Crime follows the police investigation.', status: 'Active' },
+                    { id: 210, title: 'Made in Heaven', genre: 'Drama/Romance', poster: 'https://picsum.photos/seed/210/500/750', description: 'The lives of two wedding planners in Delhi.', status: 'Active' },
+                    { id: 211, title: 'Kota Factory', genre: 'Drama/Comedy', poster: 'https://picsum.photos/seed/211/500/750', description: 'Dedicated to Shrimati SL Loney ji, Shri Irodov ji and Maanniya HC Verma ji.', status: 'Active' },
+                    { id: 212, title: 'Panchayat', genre: 'Comedy/Drama', poster: 'https://picsum.photos/seed/212/500/750', description: 'A comedy-drama, which captures the journey of an engineering graduate.', status: 'Active' },
+                    { id: 213, title: 'Stranger Things', genre: 'Sci-Fi/Horror', poster: 'https://picsum.photos/seed/213/500/750', description: 'When a young boy vanishes, a small town uncovers a mystery.', status: 'Active' },
+                    { id: 214, title: 'The Witcher', genre: 'Fantasy/Adventure', poster: 'https://picsum.photos/seed/214/500/750', description: 'Geralt of Rivia, a solitary monster hunter.', status: 'Active' },
+                    { id: 215, title: 'Wednesday', genre: 'Comedy/Mystery', poster: 'https://picsum.photos/seed/215/500/750', description: 'Wednesday Addams attempts to master her emerging psychic ability.', status: 'Active' },
+                    { id: 216, title: 'The Last of Us', genre: 'Drama/Thriller', poster: 'https://picsum.photos/seed/216/500/750', description: 'Joel and Ellie must survive ruthless killers.', status: 'Active' },
+                    { id: 217, title: 'Breaking Bad', genre: 'Crime/Drama', poster: 'https://picsum.photos/seed/217/500/750', description: 'A chemistry teacher diagnosed with cancer turns to cooking meth.', status: 'Active' },
+                    { id: 218, title: 'Game of Thrones', genre: 'Fantasy/Drama', poster: 'https://picsum.photos/seed/218/500/750', description: 'Nine noble families fight for control over the mythic lands of Westeros.', status: 'Active' },
+                    { id: 219, title: 'Money Heist', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/219/500/750', description: 'An unusual group of robbers attempt the most perfect robbery.', status: 'Active' },
+                    { id: 220, title: 'Friends', genre: 'Comedy', poster: 'https://picsum.photos/seed/220/500/750', description: 'Follows the personal and professional lives of six twenty to thirty-something-year-old friends.', status: 'Active' },
+                    { id: 221, title: 'The Office', genre: 'Comedy', poster: 'https://picsum.photos/seed/221/500/750', description: 'A mockumentary on a group of typical office workers.', status: 'Active' },
+                    { id: 222, title: 'Black Mirror', genre: 'Sci-Fi/Drama', poster: 'https://picsum.photos/seed/222/500/750', description: 'An anthology series exploring a twisted, high-tech multiverse.', status: 'Active' },
+                    { id: 223, title: 'Sherlock', genre: 'Crime/Drama', poster: 'https://picsum.photos/seed/223/500/750', description: 'A modern update finds the famous sleuth and his doctor partner solving crime.', status: 'Active' },
+                    { id: 224, title: 'Narcos', genre: 'Crime/Biography', poster: 'https://picsum.photos/seed/224/500/750', description: 'A chronicled look at the criminal exploits of Colombian drug lord Pablo Escobar.', status: 'Active' },
+                    { id: 225, title: 'Dark', genre: 'Sci-Fi/Mystery', poster: 'https://picsum.photos/seed/225/500/750', description: 'A family saga with a supernatural twist.', status: 'Active' },
+                    { id: 226, title: 'Dahaad', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/226/500/750', description: 'A sub-inspector uncovers a series of murders.', status: 'Active' },
+                    { id: 227, title: 'Jubilee', genre: 'Drama/History', poster: 'https://picsum.photos/seed/227/500/750', description: 'A tale of the golden age of Indian cinema.', status: 'Active' },
+                    { id: 228, title: 'Kohrra', genre: 'Crime/Investigation', poster: 'https://picsum.photos/seed/228/500/750', description: 'A murder investigation in the Punjab countryside.', status: 'Active' },
+                    { id: 229, title: 'Guns & Gulaabs', genre: 'Comedy/Crime', poster: 'https://picsum.photos/seed/229/500/750', description: 'A gangster comedy set in the 90s.', status: 'Active' },
+                    { id: 230, title: 'Kaala Paani', genre: 'Survival/Drama', poster: 'https://picsum.photos/seed/230/500/750', description: 'A fight for survival in the Andaman Nicobar Islands.', status: 'Active' },
+                    { id: 231, title: 'The Railway Men', genre: 'Drama/History', poster: 'https://picsum.photos/seed/231/500/750', description: 'The unsung heroes of the 1984 Bhopal gas tragedy.', status: 'Active' },
+                    { id: 232, title: 'Scoop', genre: 'Crime/Drama', poster: 'https://picsum.photos/seed/232/500/750', description: 'A journalist gets caught in the web of the underworld.', status: 'Active' },
+                    { id: 233, title: 'Trial by Fire', genre: 'Drama', poster: 'https://picsum.photos/seed/233/500/750', description: 'A story of parents fighting for justice.', status: 'Active' },
+                    { id: 234, title: 'Rana Naidu', genre: 'Action/Drama', poster: 'https://picsum.photos/seed/234/500/750', description: 'The fixer for all of Bollywood\'s problems.', status: 'Active' },
+                    { id: 235, title: 'Heeramandi', genre: 'Drama/History', poster: 'https://picsum.photos/seed/235/500/750', description: 'The lives of courtesans in pre-independence Lahore.', status: 'Active' },
+                    { id: 236, title: 'Chamkila', genre: 'Bio/Musical', poster: 'https://picsum.photos/seed/236/500/750', description: 'The life of Punjab\'s highest-selling artist.', status: 'Active' },
+                    { id: 237, title: 'Killer Soup', genre: 'Comedy/Thriller', poster: 'https://picsum.photos/seed/237/500/750', description: 'A home chef plans to replace her husband with her lover.', status: 'Active' },
+                    { id: 238, title: 'Poacher', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/238/500/750', description: 'Forest officials uncover an ivory poaching ring.', status: 'Active' },
+                    { id: 239, title: 'Curry & Cyanide', genre: 'Documentary', poster: 'https://picsum.photos/seed/239/500/750', description: 'The Jolly Joseph murder case.', status: 'Active' },
+                    { id: 240, title: 'The Hunt for Veerappan', genre: 'Documentary', poster: 'https://picsum.photos/seed/240/500/750', description: 'The rise and fall of the forest brigand.', status: 'Active' },
+                    { id: 241, title: 'Mumbai Diaries', genre: 'Medical Drama', poster: 'https://picsum.photos/seed/241/500/750', description: 'Doctors savig lives during the 26/11 attacks.', status: 'Active' },
+                    { id: 242, title: 'Aarya S3', genre: 'Crime/Drama', poster: 'https://picsum.photos/seed/242/500/750', description: 'Aarya is back to protect her family.', status: 'Active' },
+                    { id: 243, title: 'Human', genre: 'Medical/Thriller', poster: 'https://picsum.photos/seed/243/500/750', description: 'The dark side of medical drug testing.', status: 'Active' },
+                    { id: 244, title: 'Rudra', genre: 'Crime/Thriller', poster: 'https://picsum.photos/seed/244/500/750', description: 'A super-cop returns to the force.', status: 'Active' },
+                    { id: 245, title: 'The Night Manager', genre: 'Thriller/Action', poster: 'https://picsum.photos/seed/245/500/750', description: 'An ex-soldier infiltrates an arms dealer\'s inner circle.', status: 'Active' }
+                ];
+                localStorage.setItem('adminStream', JSON.stringify(streamContent));
+
+
+                // 3. Events (25 Items)
+                const events = [
+                    { id: 301, title: 'Coldplay Live in Mumbai', genre: 'Concert', poster: 'https://picsum.photos/seed/301/500/750', description: 'Experience Coldplay live in India', date: '2025-01-15', venue: 'DY Patil Stadium, Mumbai', price: 5000, status: 'Active' },
+                    { id: 302, title: 'Zakir Khan: Tathastu', genre: 'Comedy', poster: 'https://picsum.photos/seed/302/500/750', description: 'Live standup comedy by Zakir Khan', date: '2025-01-20', venue: 'Siri Fort Auditorium, New Delhi', price: 1500, status: 'Active' },
+                    { id: 303, title: 'Sunburn Goa 2024', genre: 'Music Festival', poster: 'https://picsum.photos/seed/303/500/750', description: 'Asia\'s biggest electronic music festival', date: '2024-12-28', venue: 'Vagator Beach, Goa', price: 8000, status: 'Active' },
+                    { id: 304, title: 'Arijit Singh Live', genre: 'Concert', poster: 'https://picsum.photos/seed/304/500/750', description: 'Soulful evening with Arijit Singh', date: '2025-02-14', venue: 'JLN Stadium, Delhi', price: 3000, status: 'Active' },
+                    { id: 305, title: 'Nh7 Weekender', genre: 'Music Festival', poster: 'https://picsum.photos/seed/305/500/750', description: 'The happiest music festival', date: '2025-11-25', venue: 'Mahalaxmi Lawns, Pune', price: 2500, status: 'Active' },
+                    { id: 306, title: 'Vir Das: Landing', genre: 'Comedy', poster: 'https://picsum.photos/seed/306/500/750', description: 'World tour special', date: '2025-03-10', venue: 'NCPA, Mumbai', price: 2000, status: 'Active' },
+                    { id: 307, title: 'Diljit Dosanjh Tour', genre: 'Concert', poster: 'https://picsum.photos/seed/307/500/750', description: 'Born to Shine World Tour', date: '2025-04-05', venue: 'Jawaharlal Nehru Stadium, Delhi', price: 4000, status: 'Active' },
+                    { id: 308, title: 'Jaipur Literature Festival', genre: 'Festival', poster: 'https://picsum.photos/seed/308/500/750', description: 'Greatest literary show on Earth', date: '2025-01-19', venue: 'Hotel Clarks Amer, Jaipur', price: 500, status: 'Active' },
+                    { id: 309, title: 'Comic Con India', genre: 'Exhibition', poster: 'https://picsum.photos/seed/309/500/750', description: 'Pop culture convention', date: '2025-02-10', venue: 'KTPO, Bangalore', price: 800, status: 'Active' },
+                    { id: 310, title: 'Prateek Kuhad Winter Tour', genre: 'Concert', poster: 'https://picsum.photos/seed/310/500/750', description: 'Silhouettes Tour', date: '2025-01-05', venue: 'Phoenix Marketcity, Chennai', price: 1200, status: 'Active' },
+                    { id: 311, title: 'Auto Expo 2025', genre: 'Exhibition', poster: 'https://picsum.photos/seed/311/500/750', description: 'The motor show', date: '2025-02-12', venue: 'India Expo Mart, Greater Noida', price: 600, status: 'Active' },
+                    { id: 312, title: 'Kala Ghoda Arts Festival', genre: 'Festival', poster: 'https://picsum.photos/seed/312/500/750', description: 'Multicultural festival', date: '2025-02-04', venue: 'Kala Ghoda, Mumbai', price: 0, status: 'Active' },
+                    { id: 313, title: 'Bass Camp Festival', genre: 'Music Festival', poster: 'https://picsum.photos/seed/313/500/750', description: 'Underground bass music', date: '2025-03-20', venue: 'Razzberry Rhinoceros, Mumbai', price: 1500, status: 'Active' },
+                    { id: 314, title: 'Hornbill Festival', genre: 'Festival', poster: 'https://picsum.photos/seed/314/500/750', description: 'Festival of Festivals', date: '2024-12-01', venue: 'Kisama Heritage Village, Nagaland', price: 1000, status: 'Active' },
+                    { id: 315, title: 'Magnetic Fields', genre: 'Music Festival', poster: 'https://picsum.photos/seed/315/500/750', description: 'Contemporary music and arts', date: '2024-12-15', venue: 'Alsisar Mahal, Rajasthan', price: 12000, status: 'Active' },
+                    { id: 316, title: 'Ed Sheeran Divide Tour', genre: 'Concert', poster: 'https://picsum.photos/seed/316/500/750', description: 'Live in Mumbai', date: '2025-03-01', venue: 'Jio Gardens, Mumbai', price: 6000, status: 'Active' },
+                    { id: 317, title: 'Kenny Sebastian Live', genre: 'Comedy', poster: 'https://picsum.photos/seed/317/500/750', description: 'The most interesting person in the room', date: '2025-05-15', venue: 'Good Shepherd Auditorium, Bangalore', price: 1500, status: 'Active' },
+                    { id: 318, title: 'Lollapalooza India', genre: 'Music Festival', poster: 'https://picsum.photos/seed/318/500/750', description: 'Global music festival', date: '2025-01-28', venue: 'Mahalaxmi Race Course, Mumbai', price: 4000, status: 'Active' },
+                    { id: 319, title: 'India Art Fair', genre: 'Exhibition', poster: 'https://picsum.photos/seed/319/500/750', description: 'South Asia\'s leading platform for modern art', date: '2025-02-09', venue: 'NSIC Grounds, New Delhi', price: 700, status: 'Active' },
+                    { id: 320, title: 'Mahindra Blues Festival', genre: 'Music Festival', poster: 'https://picsum.photos/seed/320/500/750', description: 'Asia\'s largest blues festival', date: '2025-02-11', venue: 'Mehboob Studios, Mumbai', price: 3500, status: 'Active' },
+                    { id: 321, title: 'Zomaland', genre: 'Festival', poster: 'https://picsum.photos/seed/321/500/750', description: 'Grandest carnival of food and entertainment', date: '2025-11-12', venue: 'JLN Stadium, Delhi', price: 500, status: 'Active' },
+                    { id: 322, title: 'Mood Indigo', genre: 'College Fest', poster: 'https://picsum.photos/seed/322/500/750', description: 'IIT Bombay cultural festival', date: '2024-12-27', venue: 'IIT Bombay, Mumbai', price: 200, status: 'Active' },
+                    { id: 323, title: 'Rann Utsav', genre: 'Festival', poster: 'https://picsum.photos/seed/323/500/750', description: 'Cultural festival of Kutch', date: '2024-11-01', venue: 'Dhordo, Gujarat', price: 5000, status: 'Active' },
+                    { id: 324, title: 'Sonu Nigam Live', genre: 'Concert', poster: 'https://picsum.photos/seed/324/500/750', description: 'Melody King live', date: '2025-06-20', venue: 'Netaji Indoor Stadium, Kolkata', price: 2000, status: 'Active' },
+                    { id: 325, title: 'Abish Mathew Live', genre: 'Comedy', poster: 'https://picsum.photos/seed/325/500/750', description: 'Standup special', date: '2025-07-10', venue: 'Canvas Laugh Club, Mumbai', price: 1000, status: 'Active' },
+                    { id: 326, title: 'Arijit Singh Live', genre: 'Concert', poster: 'https://picsum.photos/seed/326/500/750', description: 'Live in Guwahati', date: '2025-08-15', venue: 'Barsapara Stadium, Guwahati', price: 2500, status: 'Active' },
+                    { id: 327, title: 'Sunburn Arena', genre: 'Music Festival', poster: 'https://picsum.photos/seed/327/500/750', description: 'With Martin Garrix', date: '2025-09-10', venue: 'Gachibowli Stadium, Hyderabad', price: 3000, status: 'Active' },
+                    { id: 328, title: 'Zakira Khan: Live', genre: 'Comedy', poster: 'https://picsum.photos/seed/328/500/750', description: 'New Special', date: '2025-10-02', venue: 'Abhay Prashal, Indore', price: 1200, status: 'Active' },
+                    { id: 329, title: 'Vir Das', genre: 'Comedy', poster: 'https://picsum.photos/seed/329/500/750', description: 'Mind Fool Tour', date: '2025-11-20', venue: 'Liberty Square, Pune', price: 1800, status: 'Active' },
+                    { id: 330, title: 'Comic Con', genre: 'Exhibition', poster: 'https://picsum.photos/seed/330/500/750', description: 'Pop Culture Fest', date: '2025-12-05', venue: 'Chennai Trade Center', price: 900, status: 'Active' },
+                    { id: 331, title: 'Kerala Literature Fest', genre: 'Festival', poster: 'https://picsum.photos/seed/331/500/750', description: 'Asia\'s largest lit fest', date: '2025-01-12', venue: 'Kozhikode Beach, Kerala', price: 0, status: 'Active' },
+                    { id: 332, title: 'Music in the Hills', genre: 'Concert', poster: 'https://picsum.photos/seed/332/500/750', description: 'Acoustic sessions', date: '2025-04-15', venue: 'The Ridge, Shimla', price: 500, status: 'Active' },
+                    { id: 333, title: 'Lucknow Food Fest', genre: 'Food', poster: 'https://picsum.photos/seed/333/500/750', description: 'Taste of Awadh', date: '2025-03-20', venue: 'Awadh Shilpgram, Lucknow', price: 200, status: 'Active' },
+                    { id: 334, title: 'Chandigarh Comedy Night', genre: 'Comedy', poster: 'https://picsum.photos/seed/334/500/750', description: 'Best of Punjabi comedy', date: '2025-06-10', venue: 'Tagore Theatre, Chandigarh', price: 800, status: 'Active' },
+                    { id: 335, title: 'Navratri Utsav', genre: 'Festival', poster: 'https://picsum.photos/seed/335/500/750', description: 'Nine nights of dance', date: '2025-10-15', venue: 'GMDC Ground, Ahmedabad', price: 500, status: 'Active' },
+                    { id: 336, title: 'Durga Puja Carnival', genre: 'Festival', poster: 'https://picsum.photos/seed/336/500/750', description: 'Grand immersion parade', date: '2025-10-24', venue: 'Salt Lake Stadium, Kolkata', price: 0, status: 'Active' },
+                    { id: 337, title: 'IFFI Goa', genre: 'Film Festival', poster: 'https://picsum.photos/seed/337/500/750', description: 'International Film Festival', date: '2025-11-20', venue: 'Panjim, Goa', price: 1000, status: 'Active' },
+                    { id: 338, title: 'Sankat Mochan Sangeet', genre: 'Music', poster: 'https://picsum.photos/seed/338/500/750', description: 'Classical music festival', date: '2025-04-05', venue: 'Assi Ghat, Varanasi', price: 0, status: 'Active' },
+                    { id: 339, title: 'Bangalore Tech Summit', genre: 'Exhibition', poster: 'https://picsum.photos/seed/339/500/750', description: 'Technology showcase', date: '2025-11-28', venue: 'Palace Grounds, Bangalore', price: 1500, status: 'Active' },
+                    { id: 340, title: 'Coimbatore Auto Expo', genre: 'Exhibition', poster: 'https://picsum.photos/seed/340/500/750', description: 'Mootor vehicle show', date: '2025-08-12', venue: 'Codissia, Coimbatore', price: 300, status: 'Active' },
+                    { id: 341, title: 'Mewar Festival', genre: 'Festival', poster: 'https://picsum.photos/seed/341/500/750', description: 'Welcome to Spring', date: '2025-03-30', venue: 'Bagore Ki Haveli, Udaipur', price: 400, status: 'Active' },
+                    { id: 342, title: 'Sufi Night', genre: 'Concert', poster: 'https://picsum.photos/seed/342/500/750', description: 'Soulful melodies', date: '2025-05-25', venue: 'SKICC, Srinagar', price: 1000, status: 'Active' },
+                    { id: 343, title: 'Shillong Rock Fest', genre: 'Concert', poster: 'https://picsum.photos/seed/343/500/750', description: 'Rock capital alive', date: '2025-12-10', venue: 'Polo Ground, Shillong', price: 1200, status: 'Active' },
+                    { id: 344, title: 'Puri Beach Festival', genre: 'Festival', poster: 'https://picsum.photos/seed/344/500/750', description: 'Sand art and culture', date: '2025-11-23', venue: 'Golden Beach, Puri', price: 0, status: 'Active' },
+                    { id: 345, title: 'Manali Winter Carnival', genre: 'Festival', poster: 'https://picsum.photos/seed/345/500/750', description: 'Snow and celebrations', date: '2025-01-02', venue: 'Mall Road, Manali', price: 0, status: 'Active' }
+                ];
+                localStorage.setItem('adminEvents', JSON.stringify(events));
+
+                // 4. Sports (25 Items)
+                const sports = [
+                    { id: 401, title: 'IPL 2025: MI vs CSK', genre: 'Cricket', poster: 'https://picsum.photos/seed/401/500/750', description: 'El Clasico of IPL', date: '2025-04-10', venue: 'Wankhede Stadium, Mumbai', price: 3000, status: 'Active' },
+                    { id: 402, title: 'IPL 2025: RCB vs CSK', genre: 'Cricket', poster: 'https://picsum.photos/seed/402/500/750', description: 'Southern Derby', date: '2025-04-15', venue: 'Chinnaswamy Stadium, Bangalore', price: 2500, status: 'Active' },
+                    { id: 403, title: 'ISL: Mumbai City FC vs Bengaluru FC', genre: 'Football', poster: 'https://picsum.photos/seed/403/500/750', description: 'High intensity match', date: '2025-02-10', venue: 'Mumbai Football Arena', price: 1200, status: 'Active' },
+                    { id: 404, title: 'PKL: Jaipur Pink Panthers vs U Mumba', genre: 'Kabaddi', poster: 'https://picsum.photos/seed/404/500/750', description: 'Pro Kabaddi League action', date: '2025-01-05', venue: 'Sawai Mansingh Stadium, Jaipur', price: 800, status: 'Active' },
+                    { id: 405, title: 'IPL 2025: KKR vs RCB', genre: 'Cricket', poster: 'https://picsum.photos/seed/405/500/750', description: 'Battle of the giants', date: '2025-04-20', venue: 'Eden Gardens, Kolkata', price: 2000, status: 'Active' },
+                    { id: 406, title: 'ISL: Kerala Blasters vs Mohun Bagan', genre: 'Football', poster: 'https://picsum.photos/seed/406/500/750', description: 'Sea of Yellow', date: '2025-02-15', venue: 'JLN Stadium, Kochi', price: 1000, status: 'Active' },
+                    { id: 407, title: 'India vs Australia: 1st ODI', genre: 'Cricket', poster: 'https://picsum.photos/seed/407/500/750', description: 'International Series', date: '2025-03-05', venue: 'Narendra Modi Stadium, Ahmedabad', price: 1500, status: 'Active' },
+                    { id: 408, title: 'India vs England: 2nd Test', genre: 'Cricket', poster: 'https://picsum.photos/seed/408/500/750', description: 'Test Championship', date: '2025-01-25', venue: 'Chepauk Stadium, Chennai', price: 500, status: 'Active' },
+                    { id: 409, title: 'PBL: Hyderabad Hunters vs Mumbai Rockets', genre: 'Badminton', poster: 'https://picsum.photos/seed/409/500/750', description: 'Premier Badminton League', date: '2025-01-12', venue: 'Gachibowli Stadium, Hyderabad', price: 600, status: 'Active' },
+                    { id: 410, title: 'IPL 2025: DC vs RR', genre: 'Cricket', poster: 'https://picsum.photos/seed/410/500/750', description: 'North India Derby', date: '2025-04-25', venue: 'Arun Jaitley Stadium, Delhi', price: 1800, status: 'Active' },
+                    { id: 411, title: 'ISL: FC Goa vs Chennaiyin FC', genre: 'Football', poster: 'https://picsum.photos/seed/411/500/750', description: 'Coastal battle', date: '2025-02-20', venue: 'Fatorda Stadium, Goa', price: 800, status: 'Active' },
+                    { id: 412, title: 'IPL 2025: PBKS vs SRH', genre: 'Cricket', poster: 'https://picsum.photos/seed/412/500/750', description: 'League stage match', date: '2025-04-28', venue: 'PCA Stadium, Mohali', price: 1500, status: 'Active' },
+                    { id: 413, title: 'PKL: Puneri Paltan vs Tamil Thalaivas', genre: 'Kabaddi', poster: 'https://picsum.photos/seed/413/500/750', description: 'Mat battle', date: '2025-01-08', venue: 'Balewadi Stadium, Pune', price: 500, status: 'Active' },
+                    { id: 414, title: 'India Open 2025: Finals', genre: 'Badminton', poster: 'https://picsum.photos/seed/414/500/750', description: 'Super 750 Tournament', date: '2025-01-20', venue: 'KD Jadhav Indoor Hall, Delhi', price: 1000, status: 'Active' },
+                    { id: 415, title: 'Hockey India League: Finals', genre: 'Hockey', poster: 'https://picsum.photos/seed/415/500/750', description: 'National championship', date: '2025-02-28', venue: 'Kalinga Stadium, Bhubaneswar', price: 500, status: 'Active' },
+                    { id: 416, title: 'IPL 2025: LSG vs GT', genre: 'Cricket', poster: 'https://picsum.photos/seed/416/500/750', description: 'New age rivalry', date: '2025-05-02', venue: 'Ekana Stadium, Lucknow', price: 1800, status: 'Active' },
+                    { id: 417, title: 'Santosh Trophy Final', genre: 'Football', poster: 'https://picsum.photos/seed/417/500/750', description: 'State level championship', date: '2025-05-15', venue: 'Salt Lake Stadium, Kolkata', price: 200, status: 'Active' },
+                    { id: 418, title: 'Davis Cup: India vs Pakistan', genre: 'Tennis', poster: 'https://picsum.photos/seed/418/500/750', description: 'World group playoffs', date: '2025-03-15', venue: 'DLTA Complex, Delhi', price: 2000, status: 'Active' },
+                    { id: 419, title: 'F1 Indian Grand Prix', genre: 'Racing', poster: 'https://picsum.photos/seed/419/500/750', description: 'Exhibition race', date: '2025-10-30', venue: 'Buddh International Circuit, Noida', price: 10000, status: 'Active' },
+                    { id: 420, title: 'MotoGP Bharat', genre: 'Racing', poster: 'https://picsum.photos/seed/420/500/750', description: 'Grand Prix of India', date: '2025-09-22', venue: 'Buddh International Circuit, Noida', price: 8000, status: 'Active' },
+                    { id: 421, title: 'Pro Wrestling League', genre: 'Wrestling', poster: 'https://picsum.photos/seed/421/500/750', description: 'Final showdown', date: '2025-01-30', venue: 'IG Indoor Stadium, Delhi', price: 500, status: 'Active' },
+                    { id: 422, title: 'Chennai Open 2025', genre: 'Tennis', poster: 'https://picsum.photos/seed/422/500/750', description: 'ATP 250 Tournament', date: '2025-01-05', venue: 'SDAT Stadium, Chennai', price: 800, status: 'Active' },
+                    { id: 423, title: 'IPL 2025: Qualifier 1', genre: 'Cricket', poster: 'https://picsum.photos/seed/423/500/750', description: 'Road to final', date: '2025-05-25', venue: 'Wankhede Stadium, Mumbai', price: 5000, status: 'Active' },
+                    { id: 424, title: 'IPL 2025: Eliminator', genre: 'Cricket', poster: 'https://picsum.photos/seed/424/500/750', description: 'Knockout match', date: '2025-05-26', venue: 'MA Chidambaram Stadium, Chennai', price: 4000, status: 'Active' },
+                    { id: 425, title: 'IPL 2025: Final', genre: 'Cricket', poster: 'https://picsum.photos/seed/425/500/750', description: 'The Ultimate Showdown', date: '2025-05-29', venue: 'Narendra Modi Stadium, Ahmedabad', price: 8000, status: 'Active' },
+                    { id: 426, title: 'IPL: RR vs PBKS', genre: 'Cricket', poster: 'https://picsum.photos/seed/426/500/750', description: 'Himalayan battlle', date: '2025-05-10', venue: 'HPCA Stadium, Dharamshala', price: 1500, status: 'Active' },
+                    { id: 427, title: 'IPL: SRH vs KKR', genre: 'Cricket', poster: 'https://picsum.photos/seed/427/500/750', description: 'Coastal clash', date: '2025-05-12', venue: 'ACA-VDCA Stadium, Visakhapatnam', price: 1800, status: 'Active' },
+                    { id: 428, title: 'ISL: Odisha FC vs FC Goa', genre: 'Football', poster: 'https://picsum.photos/seed/428/500/750', description: 'League match', date: '2025-03-01', venue: 'Kalinga Stadium, Bhubaneswar', price: 600, status: 'Active' },
+                    { id: 429, title: 'ISL: Jamshedpur vs Mumbai', genre: 'Football', poster: 'https://picsum.photos/seed/429/500/750', description: 'Steel city showdown', date: '2025-03-05', venue: 'JRD Tata Sports Complex, Jamshedpur', price: 500, status: 'Active' },
+                    { id: 430, title: 'Ranji Trophy Final', genre: 'Cricket', poster: 'https://picsum.photos/seed/430/500/750', description: 'Domestic final', date: '2025-03-20', venue: 'Saurashtra CA Stadium, Rajkot', price: 0, status: 'Active' },
+                    { id: 431, title: 'Ind vs SA: 3rd ODI', genre: 'Cricket', poster: 'https://picsum.photos/seed/431/500/750', description: 'Final ODI', date: '2025-10-15', venue: 'JSCA Stadium, Ranchi', price: 1200, status: 'Active' },
+                    { id: 432, title: 'Ind vs Aus: T20I', genre: 'Cricket', poster: 'https://picsum.photos/seed/432/500/750', description: 'Night T20', date: '2025-11-05', venue: 'Shaheed Veer Narayan Stadium, Raipur', price: 1000, status: 'Active' },
+                    { id: 433, title: 'HIL: Rourkela vs Delhi', genre: 'Hockey', poster: 'https://picsum.photos/seed/433/500/750', description: 'World largest hockey stadium', date: '2025-02-14', venue: 'Birsa Munda Stadium, Rourkela', price: 400, status: 'Active' },
+                    { id: 434, title: 'Syed Modi Badminton', genre: 'Badminton', poster: 'https://picsum.photos/seed/434/500/750', description: 'BWF World Tour', date: '2025-11-20', venue: 'BBD U.P. Academy, Lucknow', price: 500, status: 'Active' },
+                    { id: 435, title: 'PKL: Patna Pirates Home', genre: 'Kabaddi', poster: 'https://picsum.photos/seed/435/500/750', description: 'Pirates vs Bulls', date: '2025-01-25', venue: 'Patliputra Sports Complex, Patna', price: 600, status: 'Active' },
+                    { id: 436, title: 'Tata Open Maharashtra', genre: 'Tennis', poster: 'https://picsum.photos/seed/436/500/750', description: 'ATP 250', date: '2025-01-02', venue: 'Balewadi Stadium, Pune', price: 800, status: 'Active' },
+                    { id: 437, title: 'Indian Open Golf', genre: 'Golf', poster: 'https://picsum.photos/seed/437/500/750', description: 'Asian Tour', date: '2025-02-23', venue: 'DLF Golf Club, Gurgaon', price: 1500, status: 'Active' },
+                    { id: 438, title: 'Ladakh Marathon', genre: 'Athletics', poster: 'https://picsum.photos/seed/438/500/750', description: 'World\'s highest marathon', date: '2025-09-08', venue: 'Leh, Ladakh', price: 1000, status: 'Active' },
+                    { id: 439, title: 'National Boxing Championship', genre: 'Boxing', poster: 'https://picsum.photos/seed/439/500/750', description: 'Elite mens boxing', date: '2025-10-22', venue: 'Bhim Stadium, Bhiwani', price: 200, status: 'Active' },
+                    { id: 440, title: 'I-League: NEROCA vs Aizawl', genre: 'Football', poster: 'https://picsum.photos/seed/440/500/750', description: 'Northeast Derby', date: '2025-02-18', venue: 'Kanchenjunga Stadium, Siliguri', price: 300, status: 'Active' },
+                    { id: 441, title: 'Pro Wrestling League', genre: 'Wrestling', poster: 'https://picsum.photos/seed/441/500/750', description: 'Grappling action', date: '2025-12-15', venue: 'Sai Centre, Sonipat', price: 400, status: 'Active' },
+                    { id: 442, title: 'ISSF World Cup', genre: 'Shooting', poster: 'https://picsum.photos/seed/442/500/750', description: 'Rifle and Pistol', date: '2025-03-18', venue: 'MP Shooting Academy, Bhopal', price: 0, status: 'Active' },
+                    { id: 443, title: 'Asian Athletic C\'ship', genre: 'Athletics', poster: 'https://picsum.photos/seed/443/500/750', description: 'Continental meet', date: '2025-07-06', venue: 'Birsa Munda Athletics Stadium, Ranchi', price: 100, status: 'Active' },
+                    { id: 444, title: 'National Games: Goa', genre: 'Multisport', poster: 'https://picsum.photos/seed/444/500/750', description: '37th National Games', date: '2025-11-01', venue: 'Dr. SPM Stadium, Panaji', price: 0, status: 'Active' },
+                    { id: 445, title: 'Chess Olympiad', genre: 'Chess', poster: 'https://picsum.photos/seed/445/500/750', description: 'Strategists at war', date: '2025-08-10', venue: 'Convention Centre, Mahabalipuram', price: 500, status: 'Active' }
+                ];
+                localStorage.setItem('adminSports', JSON.stringify(sports));
+
+                // 5. Theaters (25 Items)
+                const theaters = [
+                    { id: 501, name: 'INOX: Megaplex', location: 'Phoenix Marketcity, Mumbai', distance: '2.5 km', screens: ['IMAX', '4DX', 'MX4D'], showtimes: [{ time: '10:00 AM', price: 300, screen: 'IMAX' }, { time: '01:30 PM', price: 400, screen: 'MX4D' }] },
+                    { id: 502, name: 'PVR: Gold', location: 'Juhu, Mumbai', distance: '4.2 km', screens: ['Gold Class', 'Regular'], showtimes: [{ time: '11:00 AM', price: 500, screen: 'Gold Class' }] },
+                    { id: 503, name: 'Cinepolis: VIP', location: 'Andheri West, Mumbai', distance: '3.8 km', screens: ['VIP', 'Regular'], showtimes: [{ time: '12:00 PM', price: 450, screen: 'VIP' }] },
+                    { id: 504, name: 'PVR: Icon', location: 'Infinity Mall, Mumbai', distance: '5.0 km', screens: ['Luxe', 'Regular'], showtimes: [{ time: '02:00 PM', price: 350, screen: 'Luxe' }] },
+                    { id: 505, name: 'Carnival Cinemas', location: 'Borivali, Mumbai', distance: '12 km', screens: ['Regular'], showtimes: [{ time: '03:00 PM', price: 150, screen: 'Regular' }] },
+                    { id: 506, name: 'PVR: Plaza', location: 'Connaught Place, Delhi', distance: '10 km', screens: ['Regular', 'Prime'], showtimes: [{ time: '10:00 AM', price: 250, screen: 'Prime' }] },
+                    { id: 507, name: 'INOX: Nehru Place', location: 'Nehru Place, Delhi', distance: '15 km', screens: ['Regular', 'Insignia'], showtimes: [{ time: '11:30 AM', price: 400, screen: 'Insignia' }] },
+                    { id: 508, name: 'Cinepolis: DLF Place', location: 'Saket, Delhi', distance: '18 km', screens: ['IMAX', 'Regular'], showtimes: [{ time: '01:00 PM', price: 350, screen: 'IMAX' }] },
+                    { id: 509, name: 'PVR: Priya', location: 'Vasant Vihar, Delhi', distance: '20 km', screens: ['P[XL]', 'Regular'], showtimes: [{ time: '04:00 PM', price: 300, screen: 'P[XL]' }] },
+                    { id: 510, name: 'Miraj Cinemas', location: 'Shalimar Bagh, Delhi', distance: '25 km', screens: ['Regular'], showtimes: [{ time: '05:00 PM', price: 180, screen: 'Regular' }] },
+                    { id: 511, name: 'PVR: Koramangala', location: 'Koramangala, Bangalore', distance: '5 km', screens: ['Gold', 'Regular'], showtimes: [{ time: '10:00 AM', price: 400, screen: 'Gold' }] },
+                    { id: 512, name: 'INOX: Garuda Mall', location: 'Magrath Road, Bangalore', distance: '6 km', screens: ['Regular', 'Insignia'], showtimes: [{ time: '01:00 PM', price: 300, screen: 'Insignia' }] },
+                    { id: 513, name: 'Cinepolis: Orion Mall', location: 'Rajajinagar, Bangalore', distance: '10 km', screens: ['Regular', 'VIP'], showtimes: [{ time: '03:30 PM', price: 350, screen: 'VIP' }] },
+                    { id: 514, name: 'Urvashi Cinema', location: 'Lalbagh Road, Bangalore', distance: '8 km', screens: ['Regular 4K'], showtimes: [{ time: '06:00 PM', price: 200, screen: 'Regular 4K' }] },
+                    { id: 515, name: 'PVR: Phoenix Marketcity', location: 'Whitefield, Bangalore', distance: '15 km', screens: ['IMAX', '4DX'], showtimes: [{ time: '09:00 PM', price: 450, screen: 'IMAX' }] },
+                    { id: 516, name: 'Sathyam Cinemas', location: 'Royapettah, Chennai', distance: '5 km', screens: ['Sathyam', 'Seasons'], showtimes: [{ time: '10:00 AM', price: 180, screen: 'Sathyam' }] },
+                    { id: 517, name: 'PVR: Palazzo', location: 'Vadapalani, Chennai', distance: '8 km', screens: ['IMAX', 'Regular'], showtimes: [{ time: '02:00 PM', price: 250, screen: 'IMAX' }] },
+                    { id: 518, name: 'INOX: Chennai Citi Centre', location: 'Mylapore, Chennai', distance: '6 km', screens: ['Regular'], showtimes: [{ time: '05:00 PM', price: 160, screen: 'Regular' }] },
+                    { id: 519, name: 'Rohini Silver Screens', location: 'Koyambedu, Chennai', distance: '12 km', screens: ['Regular'], showtimes: [{ time: '11:00 AM', price: 150, screen: 'Regular' }] },
+                    { id: 520, name: 'AGS Cinemas', location: 'T Nagar, Chennai', distance: '7 km', screens: ['Regular'], showtimes: [{ time: '04:00 PM', price: 180, screen: 'Regular' }] },
+                    { id: 521, name: 'Prasads Multiplex', location: 'Necklace Road, Hyderabad', distance: '5 km', screens: ['Large Screen', 'Regular'], showtimes: [{ time: '10:00 AM', price: 250, screen: 'Large Screen' }] },
+                    { id: 522, name: 'PVR: RK Cineplex', location: 'Banjara Hills, Hyderabad', distance: '8 km', screens: ['Regular', 'Gold'], showtimes: [{ time: '01:00 PM', price: 300, screen: 'Gold' }] },
+                    { id: 523, name: 'AMB Cinemas', location: 'Gachibowli, Hyderabad', distance: '15 km', screens: ['Super Plex', 'Regular'], showtimes: [{ time: '05:00 PM', price: 350, screen: 'Super Plex' }] },
+                    { id: 524, name: 'INOX: GVK One', location: 'Banjara Hills, Hyderabad', distance: '8 km', screens: ['Regular'], showtimes: [{ time: '08:00 PM', price: 220, screen: 'Regular' }] },
+                    { id: 525, name: 'Asian Cinemas', location: 'Kukatpally, Hyderabad', distance: '18 km', screens: ['Regular'], showtimes: [{ time: '09:00 PM', price: 180, screen: 'Regular' }] },
+                    { id: 526, name: 'PVR: Lulu', location: 'Edappally, Kochi', distance: '10 km', screens: ['IMAX', '4DX', 'Gold'], showtimes: [{ time: '11:00 AM', price: 400, screen: 'IMAX' }] },
+                    { id: 527, name: 'INOX: Prozone', location: 'Saravanampatti, Coimbatore', distance: '8 km', screens: ['Regular', 'Insignia'], showtimes: [{ time: '02:00 PM', price: 300, screen: 'Insignia' }] },
+                    { id: 528, name: 'Cinepolis: DB City', location: 'MP Nagar, Bhopal', distance: '5 km', screens: ['Regular', 'VIP'], showtimes: [{ time: '05:00 PM', price: 350, screen: 'VIP' }] },
+                    { id: 529, name: 'Raj Mandir', location: 'Bhagwan Das Rd, Jaipur', distance: '4 km', screens: ['Single Screen'], showtimes: [{ time: '06:30 PM', price: 200, screen: 'Single Screen' }] },
+                    { id: 530, name: 'Mayajaal Multiplex', location: 'Kanathur, Chennai', distance: '20 km', screens: ['Regular'], showtimes: [{ time: '10:00 AM', price: 150, screen: 'Regular' }] },
+                    { id: 531, name: 'Aries Plex SL', location: 'Thampanoor, Trivandrum', distance: '3 km', screens: ['Audi 1 4K'], showtimes: [{ time: '06:00 PM', price: 300, screen: 'Audi 1 4K' }] },
+                    { id: 532, name: 'PVR: Elante', location: 'Ind Area, Chandigarh', distance: '6 km', screens: ['Regular', 'Gold', '4DX'], showtimes: [{ time: '01:00 PM', price: 450, screen: 'Gold' }] },
+                    { id: 533, name: 'Wave Cinemas', location: 'Sector 18, Noida', distance: '12 km', screens: ['Platinum', 'Gold'], showtimes: [{ time: '04:00 PM', price: 300, screen: 'Platinum' }] },
+                    { id: 534, name: 'INOX: South City', location: 'Prince Anwar Shah Rd, Kolkata', distance: '10 km', screens: ['Regular', 'Insignia'], showtimes: [{ time: '07:00 PM', price: 350, screen: 'Insignia' }] },
+                    { id: 535, name: 'PVR: Treasure Island', location: 'MG Road, Indore', distance: '2 km', screens: ['Regular', 'Gold'], showtimes: [{ time: '12:00 PM', price: 250, screen: 'Gold' }] },
+                    { id: 536, name: 'Cinepolis: P&M', location: 'Patliputra, Patna', distance: '6 km', screens: ['Regular'], showtimes: [{ time: '03:00 PM', price: 200, screen: 'Regular' }] },
+                    { id: 537, name: 'Miraj: Shalimar', location: 'Simbal Camp, Jammu', distance: '15 km', screens: ['Regular'], showtimes: [{ time: '02:00 PM', price: 180, screen: 'Regular' }] },
+                    { id: 538, name: 'PVR: Pacific', location: 'Rajpur Road, Dehradun', distance: '5 km', screens: ['Regular'], showtimes: [{ time: '05:00 PM', price: 220, screen: 'Regular' }] },
+                    { id: 539, name: 'NY Cinemas', location: 'Motera, Ahmedabad', distance: '12 km', screens: ['Regular'], showtimes: [{ time: '08:00 PM', price: 250, screen: 'Regular' }] },
+                    { id: 540, name: 'MovieTime', location: 'College Road, Nashik', distance: '4 km', screens: ['Regular'], showtimes: [{ time: '10:00 AM', price: 160, screen: 'Regular' }] },
+                    { id: 541, name: 'Carnival Cinemas', location: 'Ayyanthole, Thrissur', distance: '3 km', screens: ['Regular'], showtimes: [{ time: '01:00 PM', price: 150, screen: 'Regular' }] },
+                    { id: 542, name: 'Asian Jyothi', location: 'Dabagardens, Visakhapatnam', distance: '2 km', screens: ['Regular'], showtimes: [{ time: '04:00 PM', price: 180, screen: 'Regular' }] },
+                    { id: 543, name: 'E-Square', location: 'University Rd, Pune', distance: '8 km', screens: ['Regular'], showtimes: [{ time: '06:00 PM', price: 200, screen: 'Regular' }] },
+                    { id: 544, name: 'PVR: Avani', location: 'Jagatballavpur, Howrah', distance: '15 km', screens: ['Regular'], showtimes: [{ time: '02:00 PM', price: 180, screen: 'Regular' }] },
+                    { id: 545, name: 'Mukta A2', location: 'GE Road, Raipur', distance: '5 km', screens: ['Regular'], showtimes: [{ time: '07:00 PM', price: 200, screen: 'Regular' }] }
+                ];
+                localStorage.setItem('theaters', JSON.stringify(theaters));
+
+                showStatus('✅ Success! Over 100+ items initialized across Movies, Streams, Events, Sports, and Theaters.', 'success');
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all data? This will remove all movies, users, bookings, and settings.')) {
+                localStorage.clear();
+                showStatus('🗑️ All data has been cleared.', 'success');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+            statusDiv.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

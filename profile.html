@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="glass navbar">
+        <div class="logo glow-text" onclick="window.location.href='index.html'" style="cursor: pointer;">SLAY SCREENS
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#" class="active">Profile</a>
+            <a href="bookings.html">My Bookings</a>
+        </div>
+        <div id="userSection"></div>
+    </nav>
+
+    <div class="container">
+        <div class="glass-card profile-card">
+            <h1 class="glow-text" style="margin-bottom: 2rem; text-align: center;">My Profile</h1>
+
+            <div class="profile-details">
+                <div class="profile-avatar-large">
+                    <span id="avatarInitials"></span>
+                </div>
+
+                <div class="detail-group">
+                    <label>Full Name</label>
+                    <div class="glass-input" id="userName">Loading...</div>
+                </div>
+
+                <div class="detail-group">
+                    <label>Email Address</label>
+                    <div class="glass-input" id="userEmail">Loading...</div>
+                </div>
+
+                <div class="detail-group">
+                    <label>Phone Number</label>
+                    <div class="glass-input" id="userPhone">Loading...</div>
+                </div>
+
+                <div class="detail-group">
+                    <label>Account Type</label>
+                    <div class="glass-input" id="userRole" style="color: var(--neon-purple); font-weight: 600;">
+                        Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Navbar Styles (Matching index.html) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-pink);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-pink);
+            box-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Container Layout */
+        .container {
+            margin-top: 100px;
+            padding: 2rem 10%;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-card {
+            width: 100%;
+            max-width: 500px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(176, 38, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0 auto 2.5rem;
+            box-shadow: 0 0 40px rgba(176, 38, 255, 0.5);
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .detail-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .detail-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .glass-input {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .glass-input:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(176, 38, 255, 0.3);
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!window.auth.requireAuth()) return;
+
+            const user = window.auth.getCurrentUser();
+
+            // Set Avatar
+            const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('avatarInitials').textContent = initials;
+
+            // Set Details
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userPhone').textContent = user.phone || 'Not provided';
+            document.getElementById('userRole').textContent = user.role;
+
+            // Initialize user section in nav
+            updateUserSection();
+        });
+
+        function updateUserSection() {
+            const userSection = document.getElementById('userSection');
+            const user = window.auth.getCurrentUser();
+
+            if (user) {
+                userSection.innerHTML = `
+                    <button class="neon-btn neon-btn-primary" onclick="window.auth.logout(); window.location.href='index.html'">
+                        Logout
+                    </button>
+                `;
+            }
+        }
+    </script>
+</body>
+
+</html>

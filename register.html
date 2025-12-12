@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card glass-card">
+            <div class="auth-header">
+                <h1 class="glow-text">Create Account</h1>
+                <p>Join Slay Screens today</p>
+            </div>
+
+            <!-- Registration Type Toggle -->
+            <div class="auth-toggle">
+                <button class="toggle-btn active" onclick="showUserForm()">
+                    <i class="fas fa-user"></i> User Registration
+                </button>
+                <button class="toggle-btn" onclick="showAdminForm()">
+                    <i class="fas fa-user-shield"></i> Admin Registration
+                </button>
+            </div>
+
+            <!-- Message Div -->
+            <div id="message"></div>
+
+            <!-- User Registration Form -->
+            <form id="userRegisterForm" class="auth-form">
+                <input type="hidden" name="role" value="USER">
+
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" name="name" class="glass-input" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" name="email" class="glass-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" name="phone" class="glass-input" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" name="password" class="glass-input" placeholder="Create a password" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" name="confirmPassword" class="glass-input"
+                        placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="neon-btn neon-btn-primary auth-btn">
+                    <i class="fas fa-user-plus"></i> Register as User
+                </button>
+            </form>
+
+            <!-- Admin Registration Form -->
+            <form id="adminRegisterForm" class="auth-form" style="display: none;">
+                <input type="hidden" name="role" value="ADMIN">
+
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" name="name" class="glass-input" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" name="email" class="glass-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" name="phone" class="glass-input" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" name="password" class="glass-input" placeholder="Create a password" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" name="confirmPassword" class="glass-input"
+                        placeholder="Confirm your password" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> Secret Code</label>
+                    <input type="password" name="secretCode" class="glass-input" placeholder="Enter admin secret code"
+                        required>
+                </div>
+
+                <button type="submit" class="neon-btn neon-btn-primary auth-btn">
+                    <i class="fas fa-user-shield"></i> Register as Admin
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html" class="glow-link">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+        }
+
+        .auth-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .toggle-btn {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(176, 38, 255, 0.5);
+        }
+
+        .toggle-btn.active {
+            background: rgba(176, 38, 255, 0.2);
+            border-color: var(--neon-purple);
+            color: white;
+        }
+
+        .auth-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group label i {
+            margin-right: 5px;
+            color: var(--neon-purple);
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .glass-input:focus {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.3);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .auth-footer {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glow-link {
+            color: var(--neon-purple);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .glow-link:hover {
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        #message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        #message.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        #message.error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const msgDiv = document.getElementById('message');
+
+        function showMessage(msg, type) {
+            msgDiv.textContent = msg;
+            msgDiv.className = type;
+            msgDiv.style.display = 'block';
+
+            setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showUserForm() {
+            document.getElementById('userRegisterForm').style.display = 'block';
+            document.getElementById('adminRegisterForm').style.display = 'none';
+            document.querySelectorAll('.toggle-btn')[0].classList.add('active');
+            document.querySelectorAll('.toggle-btn')[1].classList.remove('active');
+        }
+
+        function showAdminForm() {
+            document.getElementById('userRegisterForm').style.display = 'none';
+            document.getElementById('adminRegisterForm').style.display = 'block';
+            document.querySelectorAll('.toggle-btn')[0].classList.remove('active');
+            document.querySelectorAll('.toggle-btn')[1].classList.add('active');
+        }
+
+        // Handle User Registration
+        document.getElementById('userRegisterForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirmPassword');
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match!', 'error');
+                return;
+            }
+
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                password: password,
+                role: 'USER'
+            };
+
+            const result = window.auth.register(userData);
+            if (result.success) {
+                showMessage(result.message, 'success');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        });
+
+        // Handle Admin Registration
+        document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirmPassword');
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match!', 'error');
+                return;
+            }
+
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                password: password,
+                role: 'ADMIN',
+                secretCode: formData.get('secretCode')
+            };
+
+            const result = window.auth.register(userData);
+            if (result.success) {
+                showMessage(result.message, 'success');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        });
+
+        // Check URL params for role
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('role') === 'admin') {
+            showAdminForm();
+        }
+    </script>
+</body>
+
+</html>

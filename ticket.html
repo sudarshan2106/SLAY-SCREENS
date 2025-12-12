@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Ticket | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+    <div class="ticket-container">
+        <h1 class="glow-text" style="text-align: center; margin-bottom: 2rem;">Booking Confirmed!</h1>
+
+        <div class="ticket glass-card">
+            <div class="ticket-left">
+                <img src="https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg" alt="Poster">
+            </div>
+            <div class="ticket-right">
+                <h2 class="movie-title">Loading...</h2>
+                <div class="ticket-info">
+                    <div class="info-item">
+                        <span class="label">Booking ID</span>
+                        <span class="value ticket-id">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Customer</span>
+                        <span class="value customer-name">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Theatre</span>
+                        <span class="value">INOX: Megaplex</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Date</span>
+                        <span class="value date-info">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Time</span>
+                        <span class="value time-info">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Seats</span>
+                        <span class="value seats-info">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Total Amount</span>
+                        <span class="value price-info">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Status</span>
+                        <span class="value status">Confirmed</span>
+                    </div>
+                </div>
+
+                <div class="qr-code">
+                    <!-- Placeholder QR Code -->
+                </div>
+                <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Scan at
+                    entry</p>
+            </div>
+        </div>
+
+        <div class="actions" style="text-align: center; margin-top: 2rem;">
+            <button class="neon-btn neon-btn-primary download-btn">Download Ticket</button>
+            <button class="neon-btn home-btn">Back to Home</button>
+        </div>
+    </div>
+
+    <style>
+        .ticket-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .ticket {
+            display: flex;
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid var(--neon-purple);
+        }
+
+        .ticket-left {
+            width: 30%;
+        }
+
+        .ticket-left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ticket-right {
+            width: 70%;
+            padding: 2rem;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .ticket-right h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--neon-blue);
+        }
+
+        .ticket-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .qr-code {
+            position: absolute;
+            right: 2rem;
+            bottom: 2rem;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .qr-code img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+
+    <script src="js/ticket.js"></script>
+
+</body>
+
+</html>

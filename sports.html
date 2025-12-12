@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports | Slay Screens</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="css/glassmorphism.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="glass navbar">
+        <div class="logo glow-text">SLAY SCREENS</div>
+        <div class="search-bar glass-card">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for sports events...">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Movies</a>
+            <a href="stream.html">Stream</a>
+            <a href="events.html">Events</a>
+            <a href="sports.html" class="active">Sports</a>
+        </div>
+
+        <div id="userSection">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1 class="glow-text">Sports <span style="color: var(--neon-green);">Action</span></h1>
+            <p>Book tickets for live sports matches and tournaments.</p>
+            <button class="neon-btn neon-btn-primary">View Matches</button>
+        </div>
+    </header>
+
+    <!-- Sports Grid -->
+    <section class="section-container">
+        <h2 class="section-title">Upcoming <span style="color: var(--neon-green);">Matches</span></h2>
+        <div class="sports-grid" id="sports-grid">
+            <!-- Sports events will be loaded dynamically -->
+        </div>
+    </section>
+
+    <style>
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            width: 40%;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            margin-left: 10px;
+            width: 100%;
+            outline: none;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon-pink);
+        }
+
+        .hero-section {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: radial-gradient(circle at top right, rgba(0, 255, 136, 0.2), transparent 40%);
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .section-container {
+            padding: 4rem 10%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .sports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .match-card {
+            padding: 1.5rem;
+        }
+
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .vs {
+            color: var(--neon-green);
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+        }
+
+        .match-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .match-meta i {
+            color: var(--neon-green);
+            margin-right: 5px;
+        }
+    </style>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            updateUserSection();
+            loadSports();
+        });
+
+        function updateUserSection() {
+            const userSection = document.getElementById('userSection');
+
+            if (window.auth && window.auth.isLoggedIn()) {
+                const user = window.auth.getCurrentUser();
+                const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                userSection.innerHTML = `
+                    <div class="user-profile">
+                        <div class="profile-btn" onclick="window.location.href='profile.html'">
+                            <div class="profile-avatar">${initials}</div>
+                            <span>${user.name.split(' ')[0]}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                userSection.innerHTML = '<button class="neon-btn neon-btn-primary" onclick="window.location.href=\'user-login.html\'">Sign In</button>';
+            }
+        }
+
+        function loadSports() {
+            const grid = document.getElementById('sports-grid');
+            // Load sports from localStorage (set by admin)
+            const matches = JSON.parse(localStorage.getItem('adminSports')) || [];
+
+            if (matches.length === 0) {
+                grid.innerHTML = '<p style="color: white; text-align: center; grid-column: 1/-1;">No upcoming matches found.</p>';
+                return;
+            }
+
+            grid.innerHTML = matches.filter(m => m.status === 'Active').map(match => `
+                <div class="glass-card match-card">
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-name">${match.team1}</div>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <div class="team-name">${match.team2}</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; color: var(--neon-green); font-weight: 600; margin-bottom: 1rem;">
+                        ${match.sportType} - ${match.league}
+                    </div>
+                    <div class="match-meta">
+                        <div><i class="fas fa-calendar"></i> ${match.date} at ${match.time}</div>
+                        <div><i class="fas fa-map-marker-alt"></i> ${match.venue}</div>
+                        <div style="color: var(--neon-green); font-weight: 600; margin-top: 0.5rem;">From ₹${match.price}</div>
+                    </div>
+                    <button class="neon-btn neon-btn-primary" onclick="window.location.href='sports-booking.html?id=${match.id}'">
+                        Book Tickets
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Auto-refresh every 2 seconds to detect new matches
+        setInterval(loadSports, 2000);
+
+        // Listen for storage changes from other tabs/windows
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'adminSports') {
+                loadSports();
+            }
+        });
+    </script>
+</body>
+
+</html>
